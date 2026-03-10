@@ -1,0 +1,18 @@
+{
+  "name": "cast-plugins",
+  "owner": {
+    "name": "Raghu Madhavan",
+    "email": "r.madhavan@castsoftware.com"
+  },
+  "metadata": {
+    "description": "A Claude Code plugin marketplace featuring CAST analysis skills"
+  },
+  "plugins": [
+    {
+      "name": "cast-skills",
+      "source": "cast-skills",
+      "description": "AI-powered analysis skills from CAST",
+      "version": "0.1.0-alpha"
+    }
+  ]
+}

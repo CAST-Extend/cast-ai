@@ -1,0 +1,11 @@
+{
+  "name": "cast-skills",
+  "version": "0.1.0-alpha",
+  "description": "CAST analysis and automation skills",
+  "author": {
+    "name": "Raghu Madhavan",
+    "email": "r.madhavan@castsoftware.com"
+  },
+  "license": "MIT",
+  "skills": "./skills/"
+}
