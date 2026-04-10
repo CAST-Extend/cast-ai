@@ -1,18 +1,32 @@
 {
-  "name": "cast-plugins",
+  "name": "cast-claude",
   "owner": {
     "name": "Raghu Madhavan",
     "email": "r.madhavan@castsoftware.com"
   },
   "metadata": {
-    "description": "A Claude Code plugin marketplace featuring CAST analysis skills"
+    "description": "A Claude Code plugin featuring CAST analysis skills",
+    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
-      "name": "cast-skills",
-      "source": "cast-skills",
+      "name": "cast-imaging",
+      "source": "./plugins/cast-imaging",
       "description": "AI-powered analysis skills from CAST",
-      "version": "0.1.0-alpha"
+      "version": "0.1.0-alpha",
+      "author": {
+        "name": "Raghu Madhavan",
+        "email": "r.madhavan@castsoftware.com"
+      },
+      "license": "MIT",
+      "keywords": [
+        "cast",
+        "imaging",
+        "mcp",
+        "impact-analysis",
+        "code-analysis"
+      ],
+      "category": "analysis"
     }
   ]
 }

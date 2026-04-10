@@ -1,41 +1,57 @@
-# CAST Plugin Marketplace
+# CAST Claude
 
-A Claude Code plugin marketplace featuring CAST analysis skills.
+A Claude Code plugin featuring CAST analysis skills.
+
+## Prerequisites
+
+- [Claude Code](https://claude.ai/code) CLI installed
+- A running [CAST Imaging](https://www.castsoftware.com/imaging) instance
+- [CAST Imaging MCP server](https://www.castsoftware.com/mcp) installed and configured in your Claude Code settings
 
 ## Installation
 
-Add the marketplace to Claude Code:
+Add the plugin to Claude Code:
 
 ```bash
-/plugin marketplace add cast/cast-plugins
+/plugin marketplace add CAST-Extend/cast-claude
 ```
 
-Then install the cast-skills plugin:
+Then install the cast-imaging plugin:
 
 ```bash
-/plugin install cast-skills
+/plugin install cast-imaging
 ```
 
 ## Available Skills
 
-- **impact-analysis** - Analyze code changes for impact on applications and dependencies (alpha)
+### Impact Analysis (0.1.0-alpha)
 
-More skills coming soon!
+Evaluate the scope and risk of code changes across your application landscape.
 
-## Getting Started
-
-Once installed, you'll have access to CAST skills in Claude Code. Use `/skills` to see available skills.
-
-### Example: Impact Analysis
-
-```
+**Run explicitly:**
+```bash
 /impact-analysis
-Analyze the impact of this code change on our applications.
 ```
 
-## Contributing
+**Or trigger automatically by asking:**
+- "What breaks if I change X?"
+- "Is it safe to remove X?"
+- "What depends on X?"
+- "Blast radius of X?"
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add new skills.
+**Use when:**
+- You need to understand the impact of a code change
+- You want to assess risk before deployment
+- You need to validate affected systems
+
+**Example:**
+```
+What's the impact of refactoring the OrderProcessor class in BillingApp?
+```
+
+## Version History
+
+See [CHANGELOG.md](CHANGELOG.md)
 
 ## License
 

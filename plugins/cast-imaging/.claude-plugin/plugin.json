@@ -1,5 +1,5 @@
 {
-  "name": "cast-skills",
+  "name": "cast-imaging",
   "version": "0.1.0-alpha",
   "description": "CAST analysis and automation skills",
   "author": {
@@ -7,5 +7,13 @@
     "email": "r.madhavan@castsoftware.com"
   },
   "license": "MIT",
+  "keywords": [
+    "cast",
+    "imaging",
+    "mcp",
+    "impact-analysis",
+    "code-analysis"
+  ],
+  "repository": "https://github.com/CAST-Extend/cast-claude",
   "skills": "./skills/"
 }
