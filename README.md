@@ -16,10 +16,10 @@ Add the plugin to Claude Code:
 /plugin marketplace add CAST-Extend/cast-claude
 ```
 
-Then install the CAST-Imaging plugin:
+Then install the CASTImaging plugin:
 
 ```bash
-/plugin install CAST-Imaging
+/plugin install CASTImaging
 ```
 
 ## Available Skills
