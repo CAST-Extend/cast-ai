@@ -10,8 +10,8 @@
   },
   "plugins": [
     {
-      "name": "cast-imaging",
-      "source": "./plugins/cast-imaging",
+      "name": "CAST-Imaging",
+      "source": "./plugins/CAST-Imaging",
       "description": "AI-powered analysis skills from CAST",
       "version": "0.1.0-alpha",
       "author": {

@@ -2,10 +2,10 @@
 
 All notable changes to cast-claude will be documented in this file.
 
-## [0.1.0-alpha] - 2026-04-10
+## [0.1.0-alpha] - 2026-04-16
 
 ### Added
-- Initial alpha release of the cast-imaging plugin
+- Initial alpha release of the CAST-Imaging plugin
 - impact-analysis skill for code change impact assessment
 - GitHub issue templates for bug reports and feature requests
 

@@ -12,7 +12,7 @@ AI-powered analysis skills for [CAST Imaging](https://www.castsoftware.com/imagi
 
 | Command | Description |
 |---------|-------------|
-| `/cast-imaging:impact-analysis [application] [object_name]` | Run impact analysis on a code object |
+| `/CAST-Imaging:impact-analysis [application] [object_name]` | Run impact analysis on a code object |
 
 ## Prerequisites
 
