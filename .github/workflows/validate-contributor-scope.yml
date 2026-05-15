@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
 
     steps:
       - uses: actions/checkout@v4
@@ -19,9 +18,9 @@ jobs:
 
       - name: Resolve contributor scope
         env:
-          GH_TOKEN: ${{ github.token }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           # Keep in sync with CODEOWNERS
           MAINTAINERS: "cgufflet obonsignour"
         run: |
@@ -36,11 +35,10 @@ jobs:
           echo "🔍 $PR_AUTHOR is an external contributor — checking path scope"
 
           ALLOWED_PREFIX="community/$PR_AUTHOR/"
-          FORBIDDEN_PREFIX="settings.local.json"
           FAILED=false
 
-          # Get changed file list
-          CHANGED=$(gh pr diff "$PR_NUMBER" --name-only)
+          # Get changed file list via git diff (no gh CLI needed)
+          CHANGED=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")
 
           while IFS= read -r file; do
             [ -z "$file" ] && continue
