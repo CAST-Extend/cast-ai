@@ -67,6 +67,52 @@ community/plugins/
         <command-name>.md
 ```
 
+#### Registering the plugin — `plugin.json`
+
+Every plugin must have a `.claude-plugin/plugin.json` manifest. Use this structure:
+
+```json
+{
+  "name": "my-plugin",
+  "version": "0.1.0",
+  "status": "community",
+  "description": "One-line description of what the plugin does.",
+  "homepage": "https://github.com/<your-org>/<your-repo>",
+  "skills": [
+    {
+      "name": "my-skill",
+      "path": "skills/my-skill/SKILL.md",
+      "trigger": "/my-skill",
+      "description": "One-line description of the skill."
+    }
+  ],
+  "commands": [
+    {
+      "name": "my-skill",
+      "path": "commands/my-skill.md",
+      "trigger": "/my-skill",
+      "description": "Slash command that invokes the skill."
+    }
+  ]
+}
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Unique plugin name, lowercase hyphen-separated |
+| `version` | Yes | Semantic version (`major.minor.patch`) |
+| `status` | Yes | Use `"community"` for contributed plugins |
+| `description` | Yes | One-line summary shown in the marketplace |
+| `homepage` | No | Link to the source repository |
+| `skills` | No | List of skills bundled in this plugin |
+| `commands` | No | List of slash commands exposed by this plugin |
+
+Once registered, users can install the plugin directly from the repository:
+
+```bash
+/plugin install CAST-Extend/cast-claude/community/plugins/imaging/<plugin-name>
+```
+
 ### Rules
 
 - **Only modify files under `community/`.** The CI workflow will reject any PR that touches files outside `community/`.
