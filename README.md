@@ -1,58 +1,35 @@
-# CAST Claude
+# cast-claude
 
-A Claude Code plugin featuring CAST analysis skills.
+Skills and connectors for using Claude with CAST Imaging and CAST Highlight.
 
-## Prerequisites
+Each skill encodes a specific AI-assisted engineering workflow — impact analysis, dependency mapping, architectural Q&A — using CAST's Software Intelligence rather than raw code search. This ensures analyses are deterministic, traceable, and grounded in CAST's data model.
 
-- [Claude Code](https://claude.ai/code) CLI installed
-- A running [CAST Imaging](https://www.castsoftware.com/imaging) instance
-- [CAST Imaging MCP server](https://www.castsoftware.com/mcp) installed and configured in your Claude Code settings
+Use this repository to plug proven agent capabilities into your own Claude setup and extend them for your context.
 
-## Installation
+## Plugins
 
-Add the plugin to Claude Code:
+| Plugin | Status | Description |
+|--------|--------|-------------|
+| [`imaging`](plugins/imaging/) | Alpha | Impact analysis and code dependency skills powered by CAST Imaging |
+| [`imaging-express`](plugins/imaging-express/) | Alpha | Lightweight skills powered by CAST Imaging Express |
+| [`highlight`](plugins/highlight/) | Planned | Portfolio-level skills powered by CAST Highlight |
+| [`gatekeeper`](plugins/gatekeeper/) | Planned | Gate and policy enforcement skills powered by CAST Gatekeeper |
+
+## Getting started
 
 ```bash
-/plugin marketplace add CAST-Extend/cast-claude
+# Install a plugin directly from this repository
+/plugin install CAST-Extend/cast-claude/plugins/imaging
 ```
 
-Then install the CASTImaging plugin:
+## Community skills
 
-```bash
-/plugin install CASTImaging
-```
+Skills contributed by consultants, organized by topic. Browse the [`community/`](community/) folder — each contributor describes their skills in their own README.
 
-## Available Skills
+## Contributing
 
-### Impact Analysis (0.1.0-alpha)
-
-Evaluate the scope and risk of code changes across your application landscape.
-
-**Run explicitly:**
-```bash
-/impact-analysis
-```
-
-**Or trigger automatically by asking:**
-- "What breaks if I change X?"
-- "Is it safe to remove X?"
-- "What depends on X?"
-- "Blast radius of X?"
-
-**Use when:**
-- You need to understand the impact of a code change
-- You want to assess risk before deployment
-- You need to validate affected systems
-
-**Example:**
-```
-What's the impact of refactoring the OrderProcessor class in BillingApp?
-```
-
-## Version History
-
-See [CHANGELOG.md](CHANGELOG.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding or extending skills.
 
 ## License
 
-MIT
+[MIT](LICENSE)

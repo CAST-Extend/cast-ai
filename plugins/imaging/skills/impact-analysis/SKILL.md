@@ -15,7 +15,7 @@ Produce complete, risk-scored impact reports by chaining CAST Imaging MCP tools.
 
 Before any analysis, confirm the CAST Imaging MCP server is available.
 
-**Check:** Call `mcp__CASTImaging__applications` to verify the MCP tools are accessible.
+**Check:** Call `mcp__imaging__applications` to verify the MCP tools are accessible.
 
 **Success (returns application list):** The MCP server is connected. Proceed to Step 1.
 
@@ -36,7 +36,7 @@ See https://doc.castsoftware.com for setup instructions.
 Parse the user's message to extract `object_name`, `object_type`, and `application`.
 
 **If `application` is missing:**
-1. Call `mcp__CASTImaging__applications` to list available applications.
+1. Call `mcp__imaging__applications` to list available applications.
 2. Present the list and ask the user to pick one. Never guess.
 
 **If `object_name` is missing:**
@@ -46,7 +46,7 @@ Ask: "Which object do you want to analyze? Provide a name (e.g., CUSTOMERS, Cust
 
 ### Step 2: Find the Target Object
 
-Call `mcp__CASTImaging__objects` with `application` and `filters="name:contains:{object_name}"`. Append `,type:contains:{object_type}` if `object_type` was provided.
+Call `mcp__imaging__objects` with `application` and `filters="name:contains:{object_name}"`. Append `,type:contains:{object_type}` if `object_type` was provided.
 
 Extract: `id`, `name`, `type`, `fullName`, `filePath` for each match.
 
@@ -76,7 +76,7 @@ Store the chosen object as `TARGET_ID`.
 
 ### Step 3: Internal Structure
 
-Call `mcp__CASTImaging__object_details` with `application`, `filters="id:eq:{TARGET_ID}"`, `focus="intra"`.
+Call `mcp__imaging__object_details` with `application`, `filters="id:eq:{TARGET_ID}"`, `focus="intra"`.
 
 Extract:
 - `metrics.cyclomaticComplexity`
@@ -92,12 +92,12 @@ Record: `child_count = len(defines)`
 Run 4a and 4b **in parallel**.
 
 **4a — Inward (callers):**
-Call `mcp__CASTImaging__object_details` with `focus="inward"`, `filters="id:eq:{TARGET_ID}"`.
+Call `mcp__imaging__object_details` with `focus="inward"`, `filters="id:eq:{TARGET_ID}"`.
 Extract `incoming_calls[]` — each with `id`, `name`, `type`, `linkType`.
 Record: `inward_count`
 
 **4b — Outward (callees):**
-Call `mcp__CASTImaging__object_details` with `focus="outward"`, `filters="id:eq:{TARGET_ID}"`.
+Call `mcp__imaging__object_details` with `focus="outward"`, `filters="id:eq:{TARGET_ID}"`.
 Extract `outgoing_calls[]` — each with `id`, `name`, `type`, `linkType`.
 Record: `outward_count`
 
@@ -111,10 +111,10 @@ inward_count <= 5  -> coupling = "LOW"
 
 ### Step 6: Transaction Impact (parallel with Step 7)
 
-Call `mcp__CASTImaging__transactions_using_object` with `application`, `filters="id:eq:{TARGET_ID}"`.
+Call `mcp__imaging__transactions_using_object` with `application`, `filters="id:eq:{TARGET_ID}"`.
 Extract transaction list (`name`, `id`). Record: `transaction_count`.
 
-For each transaction (up to top 5), call `mcp__CASTImaging__transaction_details` with `application`, `id="{transaction_id}"`, `focus="complexity"`.
+For each transaction (up to top 5), call `mcp__imaging__transaction_details` with `application`, `id="{transaction_id}"`, `focus="complexity"`.
 
 The `complexity` focus returns a list of complex objects in the transaction call graph. Derive the complexity score as: `complexity_score = number of complex objects returned`. If the list is empty, `complexity_score = 0`.
 
@@ -131,16 +131,16 @@ Sort transactions by criticality descending.
 
 ### Step 7: Data Flow Impact (parallel with Step 6)
 
-Call `mcp__CASTImaging__data_graphs_involving_object` with `application`, `filters="id:eq:{TARGET_ID}"`.
+Call `mcp__imaging__data_graphs_involving_object` with `application`, `filters="id:eq:{TARGET_ID}"`.
 Extract data graph list (`name`, `id`). Record: `data_graph_count`.
 
-For critical data graphs (top 3), call `mcp__CASTImaging__data_graph_details` with `application`, `id="{data_graph_id}"`, `focus="nodes"`.
+For critical data graphs (top 3), call `mcp__imaging__data_graph_details` with `application`, `id="{data_graph_id}"`, `focus="nodes"`.
 
 **On failure:** Report "Data flow analysis unavailable" in the Data Flow Impact section, set `data_graph_count = 0`, and continue.
 
 ### Step 8: Cross-Application Impact
 
-Call `mcp__CASTImaging__inter_applications_dependencies` with `application`.
+Call `mcp__imaging__inter_applications_dependencies` with `application`.
 Extract inward and outward application-level dependency counts.
 
 This tool reports which external applications depend on (or are depended upon by) this application at the **application level** — it does not resolve to individual objects. Record: `cross_app_inward_count` (applications that depend on this one) and `cross_app_outward_count` (applications this one depends on). Set `cross_app_impact = true` if `cross_app_inward_count > 0`.
@@ -226,7 +226,7 @@ If the user asks to persist findings, tag all impacted objects (target, callers,
 
 Collect all object IDs from the analysis — target (Step 2), callers (Step 4a), and callees (Step 4b) — into one list. If the total object count exceeds 50, confirm with the user before proceeding — tagging large numbers of objects may clutter the CAST Imaging view.
 
-Call `mcp__CASTImaging__manage_object_tags` with:
+Call `mcp__imaging__manage_object_tags` with:
 - `application`
 - `add_tags=["Impact: {object_name} Change"]`
 - `nodes_for_add=["{TARGET_ID}", "{caller_id_1}", "{caller_id_2}", ..., "{callee_id_1}", "{callee_id_2}", ...]`
@@ -235,7 +235,7 @@ This allows filtering by tag in CAST Imaging to instantly visualize the entire b
 
 ## Important Rules
 
-1. **ALL data comes from `mcp__CASTImaging__*` MCP tools.** Do not use local tools (`Grep`, `Glob`, `Read`, `Bash`, `Agent`) during this analysis — even to "verify" MCP results.
+1. **ALL data comes from `mcp__imaging__*` MCP tools.** Do not use local tools (`Grep`, `Glob`, `Read`, `Bash`, `Agent`) during this analysis — even to "verify" MCP results.
 2. **Always collect parameters first** — never assume application or object name.
 3. **Always resolve the object by ID first** (Step 2) before any detail queries.
 4. **Parallelize independent steps** (4a+4b, 6+7) for faster execution.

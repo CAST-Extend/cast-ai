@@ -1,14 +1,17 @@
 # Changelog
 
-All notable changes to cast-claude will be documented in this file.
+All notable changes to this project will be documented in this file.
 
-## [0.1.0-alpha] - 2026-04-16
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+## [0.1.0] — 2026-04-01
 
 ### Added
-- Initial alpha release of the CASTImaging plugin
-- impact-analysis skill for code change impact assessment
-- GitHub issue templates for bug reports and feature requests
 
-### Notes
-- This is an alpha release
-- Feedback welcome on skill quality
+- `imaging` plugin (Alpha) with `impact-analysis` skill (full workflow: call graph traversal, risk scoring, transaction and data flow impact, optional writeback to CAST Imaging tags)
+- `impact-analysis` slash command (`/impact-analysis [application] [object_name]`)
+- `imaging-express` plugin (Alpha), skills coming soon
+- `highlight` plugin scaffold (Planned)
+- `gatekeeper` plugin scaffold (Planned)

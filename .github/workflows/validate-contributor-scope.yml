@@ -1,0 +1,70 @@
+name: Validate contributor scope
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-scope:
+    name: Check changed files are within contributor folder
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve contributor scope
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          # Keep in sync with CODEOWNERS
+          MAINTAINERS: "cgufflet obonsignour"
+        run: |
+          # Maintainers can touch anything
+          for m in $MAINTAINERS; do
+            if [ "$PR_AUTHOR" = "$m" ]; then
+              echo "✅ $PR_AUTHOR is a maintainer — no path restriction"
+              exit 0
+            fi
+          done
+
+          echo "🔍 $PR_AUTHOR is an external contributor — checking path scope"
+
+          ALLOWED_PREFIX="community/$PR_AUTHOR/"
+          FORBIDDEN_PREFIX="settings.local.json"
+          FAILED=false
+
+          # Get changed file list
+          CHANGED=$(gh pr diff "$PR_NUMBER" --name-only)
+
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+
+            # Block settings.local.json anywhere in the PR
+            if [[ "$(basename "$file")" == "settings.local.json" ]]; then
+              echo "❌ settings.local.json must not be committed: $file"
+              echo "   Declare required permissions in the SKILL.md frontmatter instead."
+              FAILED=true
+              continue
+            fi
+
+            # All other files must be under community/<username>/
+            if [[ "$file" != "$ALLOWED_PREFIX"* ]]; then
+              echo "❌ File outside allowed scope: $file"
+              echo "   External contributors may only modify files under: $ALLOWED_PREFIX"
+              FAILED=true
+            fi
+          done <<< "$CHANGED"
+
+          if [ "$FAILED" = "true" ]; then
+            echo ""
+            echo "Fix the issues above and push again."
+            exit 1
+          fi
+
+          echo "✅ All changed files are within $ALLOWED_PREFIX"

@@ -1,20 +1,20 @@
 ---
-name: Feature Request
-about: Suggest a new skill or improvement
-title: '[FEATURE] '
+name: Feature request
+about: Suggest a new skill or improvement to an existing one
 labels: enhancement
-assignees: ''
-
 ---
 
-## Description
-What skill or feature would you like to see?
+**Plugin**
+Which plugin does this relate to? e.g. `imaging`
 
-## Use Case
-Why do you need this? What problem does it solve?
+**Workflow you want to automate**
+Describe the engineering task or analysis this skill would enable.
 
-## Example
-Example of how you'd use it.
+**CAST data it would rely on**
+Which CAST product / data model would ground the analysis?
 
-## Alternatives
-Any alternative approaches you've considered.
+**Expected output**
+What should Claude produce at the end of the workflow?
+
+**Additional context**
+Any other context, examples, or references.

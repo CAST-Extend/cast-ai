@@ -1,30 +1,22 @@
 ---
-name: Bug Report
-about: Report a bug with a CAST skill or the marketplace
-title: '[BUG] '
+name: Bug report
+about: Report a problem with an existing skill
 labels: bug
-assignees: ''
-
 ---
 
-## Description
-Brief description of the bug.
+**Plugin and skill**
+e.g. `imaging` / `impact-analysis`
 
-## Steps to Reproduce
-1. Step one
-2. Step two
-3. Step three
+**What happened**
+A clear description of the unexpected behavior.
 
-## Expected Behavior
-What you expected to happen.
+**Expected behavior**
+What you expected instead.
 
-## Actual Behavior
-What actually happened.
+**Steps to reproduce**
+1. ...
+2. ...
 
-## Environment
+**Environment**
 - Claude Code version:
-- Marketplace version:
-- Operating System:
-
-## Logs/Screenshots
-Add any relevant logs or screenshots here.
+- CAST product version:

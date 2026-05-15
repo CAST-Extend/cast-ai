@@ -1,18 +1,55 @@
 # OS
 .DS_Store
-
-# IDE
-.vscode/
-.idea/
 *.swp
 *.swo
-*~
 
-# Claude Code
-.claude/
+# IDE
+.idea
+.vscode/
+*.iws
+*.iml
+*.ipr
+.claude/settings.local.json
+settings.local.json
 
-# Local testing
-.claude-plugin-cache/
+# Dependencies & build output
+node_modules/
+dist/
+build/
+out/
+__pycache__/
+*.pyc
+.venv
+venv
+env
 
-# Working files
-plans/
+### Credentials & Secrets ###
+# Environment variable files
+.env
+.env.*
+!.env.example
+!.env.template
+
+# SSL/TLS certificates and keys
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+
+# Cloud provider credentials
+credentials
+*-credentials.json
+.aws/
+.gcloud/
+
+# API keys and tokens
+*.token
+*_key.json
+*-key.json
+secrets/
+secrets.yaml
+secrets.yml
+secrets.json
