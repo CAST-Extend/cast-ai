@@ -1,13 +1,13 @@
 # Global owners — repo config, workflows, docs
-* @cgufflet @obonsignour
+* @cgufflet @obonsignour @raghumadhava
 
 # Official product plugins — product team only
-/plugins/imaging/         @cgufflet @obonsignour
-/plugins/imaging-express/ @cgufflet @obonsignour
-/plugins/highlight/       @cgufflet @obonsignour
-/plugins/gatekeeper/      @cgufflet @obonsignour
+/plugins/imaging/         @cgufflet @obonsignour @raghumadhava
+/plugins/imaging-express/ @cgufflet @obonsignour @raghumadhava
+/plugins/highlight/       @cgufflet @obonsignour @raghumadhava
+/plugins/gatekeeper/      @cgufflet @obonsignour @raghumadhava
 
 # Community contributions — maintainer approval required on all PRs.
 # Path-scope enforcement (contributors may only touch community/<their-login>/)
 # is handled by the validate-contributor-scope GitHub Actions workflow.
-/community/ @cgufflet @obonsignour
+/community/ @cgufflet @obonsignour @raghumadhava
