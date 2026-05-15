@@ -3,58 +3,58 @@
 ```
 cast-claude/
 ├── .github/
-│   └── ISSUE_TEMPLATE/
-│       ├── bug_report.md
-│       └── feature_request.md
-├── plugins/
-│   ├── imaging/               # CAST Imaging skills (Alpha)
+│   ├── ISSUE_TEMPLATE/
+│   └── workflows/
+│       └── validate-contributor-scope.yml
+├── products/                          # Official CAST plugins (product team)
+│   ├── imaging/                       # CAST Imaging plugin (Alpha)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
+│   │   ├── commands/
+│   │   │   └── impact-analysis.md
 │   │   └── skills/
 │   │       └── impact-analysis/
 │   │           └── SKILL.md
-│   ├── imaging-express/       # CAST Imaging Express skills (Alpha)
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
-│   │   └── skills/
-│   ├── highlight/             # CAST Highlight skills (Planned)
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
-│   │   └── skills/
-│   └── gatekeeper/            # CAST Gatekeeper skills (Planned)
-│       ├── .claude-plugin/
-│       │   └── plugin.json
-│       └── skills/
-├── .gitignore
-├── CHANGELOG.md
+│   ├── imaging-express/               # CAST Imaging Express plugin (Alpha)
+│   ├── highlight/                     # CAST Highlight plugin (Planned)
+│   └── gatekeeper/                    # CAST Gatekeeper plugin (Planned)
+├── community/                         # Consultant contributions
+│   ├── skills/                        # Standalone skills by product
+│   │   └── <product>/
+│   │       └── <skill-name>/
+│   │           └── SKILL.md
+│   └── plugins/                       # Full plugin packages by product
+│       └── <product>/
+│           └── <plugin-name>/
+│               ├── .claude-plugin/
+│               │   └── plugin.json
+│               ├── skills/
+│               └── commands/
 ├── CODEOWNERS
 ├── CONTRIBUTING.md
+├── CHANGELOG.md
 ├── LICENSE
 └── README.md
 ```
 
-## Plugins
+## Concepts
+
+**Skill** — a folder containing a `SKILL.md` file that teaches Claude how to perform a specific task. Claude loads skills on-demand: it scans name/description tokens and pulls the full content into context when relevant. Skills work across all Claude products.
+
+**Plugin** — a distribution format specific to Claude Code. A plugin bundles skills, slash commands, subagents, MCP servers, and hooks into a single installable unit (`/plugin install`). Plugins contain skills, not the other way around.
+
+## Official products
 
 | Plugin | Status | Description |
 |--------|--------|-------------|
-| `imaging` | Alpha (0.1.0) | Impact analysis and code dependency skills powered by CAST Imaging |
-| `imaging-express` | Alpha (0.1.0) | Lightweight skills powered by CAST Imaging Express |
-| `highlight` | Planned | Portfolio-level skills powered by CAST Highlight |
-| `gatekeeper` | Planned | Gate and policy enforcement skills powered by CAST Gatekeeper |
+| `imaging` | Alpha | Impact analysis and dependency skills powered by CAST Imaging |
+| `imaging-express` | Alpha | Lightweight skills powered by CAST Imaging Express |
+| `highlight` | Planned | Portfolio skills powered by CAST Highlight |
+| `gatekeeper` | Planned | Gate and policy skills powered by CAST Gatekeeper |
 
-## Skill anatomy
+## Community
 
-Each skill lives in its own subdirectory under `plugins/<plugin>/skills/<skill-name>/` and contains a single `SKILL.md` file that defines:
-
-- **Trigger** — the slash command that invokes the skill
-- **Description** — what the skill does and when to use it
-- **Inputs** — parameters the skill expects
-- **Workflow** — step-by-step instructions Claude follows
-- **Output** — the format of the result
-
-## Installation
-
-```bash
-# Install a plugin directly from this repository
-/plugin install CAST-Extend/cast-claude/plugins/imaging
-```
+| Area | Path | What goes here |
+|------|------|----------------|
+| Skills | `community/skills/<product>/<skill-name>/` | A single `SKILL.md` teaching Claude one workflow |
+| Plugins | `community/plugins/<product>/<plugin-name>/` | A full plugin package with `.claude-plugin/`, commands, hooks |

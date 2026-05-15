@@ -17,7 +17,7 @@ AI-powered analysis skills for [CAST Imaging](https://www.castsoftware.com/imagi
 ## Installation
 
 ```bash
-/plugin install CAST-Extend/cast-claude/plugins/imaging
+/plugin install CAST-Extend/cast-claude/products/imaging
 ```
 
 ## Usage

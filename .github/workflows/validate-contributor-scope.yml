@@ -34,7 +34,6 @@ jobs:
 
           echo "🔍 $PR_AUTHOR is an external contributor — checking path scope"
 
-          ALLOWED_PREFIX="community/$PR_AUTHOR/"
           FAILED=false
 
           # Get changed file list via git diff (no gh CLI needed)
@@ -51,10 +50,10 @@ jobs:
               continue
             fi
 
-            # All other files must be under community/<username>/
-            if [[ "$file" != "$ALLOWED_PREFIX"* ]]; then
+            # All files must be under community/
+            if [[ "$file" != "community/"* ]]; then
               echo "❌ File outside allowed scope: $file"
-              echo "   External contributors may only modify files under: $ALLOWED_PREFIX"
+              echo "   External contributors may only modify files under: community/"
               FAILED=true
             fi
           done <<< "$CHANGED"

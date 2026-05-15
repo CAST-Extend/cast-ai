@@ -2,39 +2,41 @@
 
 Thank you for your interest in contributing to cast-claude.
 
-There are two contribution tracks depending on your role:
+## Concepts
+
+**Skill** — a folder containing a `SKILL.md` file that teaches Claude how to perform one specific task. Works across all Claude products. Write a skill when you need Claude to know how to do one thing well.
+
+**Plugin** — a Claude Code distribution format. Bundles skills, slash commands, subagents, MCP servers, and hooks into a single installable unit. Wrap a skill in a plugin when you want to ship it (and related pieces) as one package someone can install in one step.
+
+---
+
+## Contribution tracks
 
 | Track | Who | Where |
 |-------|-----|-------|
-| **Official** | CAST product team | `plugins/<product>/skills/` |
-| **Community** | Consultants and external contributors | `community/<github-username>/<product>/skills/` |
+| **Official** | CAST product team | `products/<product>/` |
+| **Community skill** | Consultants and external contributors | `community/skills/<product>/<skill-name>/` |
+| **Community plugin** | Consultants and external contributors | `community/plugins/<product>/<plugin-name>/` |
 
 ---
 
 ## Community contributions
 
-If you are a consultant or external contributor, your skills live under your own folder in `community/`. This keeps product-owned skills and community skills clearly separated, and lets you work independently without waiting on the product team.
+### Contributing a skill
 
-### Folder structure
-
-Mirror the product structure inside your folder:
+A skill is a single `SKILL.md` file. Place it under the relevant CAST product:
 
 ```
-community/
-  <your-github-username>/
-    README.md                       ← describe yourself and your skills
-    imaging/
-      skills/
-        <skill-name>/
-          SKILL.md
-    highlight/
-      skills/
-        ...
+community/skills/
+  imaging/
+    <skill-name>/
+      SKILL.md
+  highlight/
+    <skill-name>/
+      SKILL.md
 ```
 
-### SKILL.md frontmatter
-
-Declare required MCP permissions in the frontmatter so users know what to grant in their local `settings.local.json`:
+**SKILL.md frontmatter** — declare required MCP permissions so users know what to grant locally:
 
 ```markdown
 ---
@@ -48,58 +50,49 @@ permissions:
 ---
 ```
 
+### Contributing a plugin
+
+A plugin bundles skills with commands, hooks, and MCP wiring. Place it under the relevant product:
+
+```
+community/plugins/
+  imaging/
+    <plugin-name>/
+      .claude-plugin/
+        plugin.json
+      skills/
+        <skill-name>/
+          SKILL.md
+      commands/
+        <command-name>.md
+```
+
 ### Rules
 
-- **Only modify files under `community/<your-github-username>/`.** The CI workflow will reject any PR that touches files outside your folder.
+- **Only modify files under `community/`.** The CI workflow will reject any PR that touches files outside `community/`.
 - **Do not commit `settings.local.json`.** It is gitignored. Declare permissions in the SKILL.md frontmatter instead.
-- Skill names are lowercase, hyphen-separated.
+- Skill and plugin names are lowercase, hyphen-separated.
 - Skills must be grounded in CAST data — do not rely on raw source code scanning alone.
 
 ### Opening a PR
 
 1. Fork the repository and create a branch.
-2. Add your skills under `community/<your-github-username>/<product>/skills/`.
-3. Add or update `community/<your-github-username>/README.md` with a short description of your skills.
-4. Open a PR against `main` with a brief description of each skill and the CAST product it relies on.
+2. Add your skill(s) under `community/skills/<product>/` or your plugin under `community/plugins/<product>/`.
+3. Open a PR against `main` with a brief description of each skill/plugin and the CAST product it relies on.
 
-All PRs require approval from the `cast-claude-maintainers` team.
+All PRs require approval from a maintainer.
 
 ---
 
 ## Official plugin contributions (product team)
 
-1. Choose the appropriate plugin directory under `plugins/`.
-2. Create a new subdirectory under `plugins/<plugin>/skills/<skill-name>/`.
-3. Add a `SKILL.md` file following the structure below.
-4. Register the skill in `plugins/<plugin>/.claude-plugin/plugin.json`.
-
-### SKILL.md structure
-
-```markdown
-# Skill Name
-
-## Trigger
-`/your-command`
-
-## Description
-What the skill does and when to use it.
-
-## Inputs
-| Parameter | Required | Description |
-|-----------|----------|-------------|
-| `param`   | Yes/No   | Description |
-
-## Workflow
-Step-by-step instructions Claude follows.
-
-## Output
-Description of the result format.
-```
+1. Choose the appropriate product directory under `products/`.
+2. Create a new subdirectory under `products/<product>/skills/<skill-name>/`.
+3. Add a `SKILL.md` file and register it in `products/<product>/.claude-plugin/plugin.json`.
 
 ### Conventions
 
 - Skill names are lowercase, hyphen-separated.
-- Triggers match the skill directory name (e.g., `skills/impact-analysis/` → `/impact-analysis`).
 - Workflows must be grounded in CAST data — do not rely on raw source code scanning.
 - Keep each skill focused on a single workflow; compose multiple skills for complex pipelines.
 

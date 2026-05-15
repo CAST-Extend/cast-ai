@@ -2,12 +2,9 @@
 * @cgufflet @obonsignour @raghumadhava
 
 # Official product plugins — product team only
-/plugins/imaging/         @cgufflet @obonsignour @raghumadhava
-/plugins/imaging-express/ @cgufflet @obonsignour @raghumadhava
-/plugins/highlight/       @cgufflet @obonsignour @raghumadhava
-/plugins/gatekeeper/      @cgufflet @obonsignour @raghumadhava
+/products/ @cgufflet @obonsignour @raghumadhava
 
 # Community contributions — maintainer approval required on all PRs.
-# Path-scope enforcement (contributors may only touch community/<their-login>/)
+# Path-scope enforcement (contributors may only touch community/)
 # is handled by the validate-contributor-scope GitHub Actions workflow.
 /community/ @cgufflet @obonsignour @raghumadhava
