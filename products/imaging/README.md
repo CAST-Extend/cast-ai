@@ -2,23 +2,6 @@
 
 AI-powered impact analysis powered by [CAST Imaging](https://www.castsoftware.com/imaging). Status: alpha.
 
-## What this plugin adds
-
-| Skill | Description |
-|-------|-------------|
-| `impact-analysis` | Risk-scored impact report for a code object: callers, callees, transactions, data flows, and cross-app reach. |
-
-Claude invokes the skill automatically when you ask things like:
-- "What breaks if I change X?"
-- "Is it safe to remove X?"
-- "Blast radius of X?"
-
-Or trigger it explicitly:
-
-```text
-/imaging:impact-analysis [application] [object_name]
-```
-
 ## Prerequisites
 
 - [Claude Code](https://claude.ai/code) installed
@@ -65,13 +48,21 @@ When a new version of the plugin ships:
 /plugin uninstall imaging@cast-claude
 ```
 
-## Development
+## What this plugin adds
 
-If you're contributing to the plugin and want to load a local checkout instead of the published version, clone the repo and use `--plugin-dir`. This is per-session, dev-only, and does not persist across restarts.
+| Skill | Description |
+|-------|-------------|
+| `impact-analysis` | Risk-scored impact report for a code object: callers, callees, transactions, data flows, and cross-app reach. |
 
-```bash
-git clone https://github.com/CAST-Extend/cast-claude.git
-claude --plugin-dir ./cast-claude/products/imaging
+Claude invokes the skill automatically when you ask things like:
+- "What breaks if I change X?"
+- "Is it safe to remove X?"
+- "Blast radius of X?"
+
+Or trigger it explicitly:
+
+```text
+/imaging:impact-analysis [application] [object_name]
 ```
 
 ## License
