@@ -15,7 +15,7 @@ Thank you for your interest in contributing to cast-claude.
 | Track | Who | Where |
 |-------|-----|-------|
 | **Official** | CAST product team | `products/<product>/` |
-| **Community** | Consultants and external contributors | `community/plugins/<product>/<bundle>/` |
+| **Community** | Consultants and external contributors | `community/plugins/<product>/` |
 
 ---
 
@@ -48,19 +48,20 @@ The current community bundles:
 
 | Plugin | Source path | CAST product |
 |--------|-------------|--------------|
-| `imaging-community` | `community/plugins/imaging/community/` | CAST Imaging |
+| `imaging-community` | `community/plugins/imaging/` | CAST Imaging |
 
 Bundles for `imaging-express`, `highlight`, and `gatekeeper` will be added when those products have community contributions.
 
 ### Layout of a community bundle
 
 ```
-community/plugins/<product>/community/
+community/plugins/<product>/
 ├── .claude-plugin/
 │   └── plugin.json
-└── skills/
-    └── <skill-name>/
-        └── SKILL.md
+├── skills/
+│   └── <skill-name>/
+│       └── SKILL.md
+└── README.md
 ```
 
 Each `SKILL.md` declares its own frontmatter:
@@ -84,7 +85,7 @@ Every plugin must have a `.claude-plugin/plugin.json` manifest. Use only fields 
   "name": "<product>-community",
   "version": "0.1.0",
   "description": "One-line description of what this bundle contains.",
-  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>/community",
+  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>",
   "keywords": ["cast", "<product>", "community"]
 }
 ```
@@ -102,17 +103,17 @@ Skills are auto-discovered from the `skills/` subdirectory; do not declare them 
 
 If your CAST product does not yet have a community bundle (e.g. you're the first to contribute a `highlight` community skill), your PR creates the bundle:
 
-1. Create `community/plugins/<product>/community/.claude-plugin/plugin.json` (use the template above).
-2. Add your skill at `community/plugins/<product>/community/skills/<skill-name>/SKILL.md`.
+1. Create `community/plugins/<product>/.claude-plugin/plugin.json` (use the template above).
+2. Add your skill at `community/plugins/<product>/skills/<skill-name>/SKILL.md`.
 3. Register the new plugin in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json):
 
    ```json
    {
      "name": "<product>-community",
-     "source": "./community/plugins/<product>/community",
+     "source": "./community/plugins/<product>",
      "category": "community",
      "description": "Community-contributed skills for CAST <Product>.",
-     "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>/community",
+     "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>",
      "license": "MIT",
      "keywords": ["cast", "<product>", "community"]
    }
@@ -124,7 +125,7 @@ If your CAST product does not yet have a community bundle (e.g. you're the first
 
 If a community bundle for your CAST product already exists (e.g. `imaging-community`), your PR adds your skill to it:
 
-1. Drop your skill at `community/plugins/<product>/community/skills/<skill-name>/SKILL.md`.
+1. Drop your skill at `community/plugins/<product>/skills/<skill-name>/SKILL.md`.
 2. Bump the bundle's `plugin.json` `version` (patch-level: e.g. `0.1.0` → `0.1.1`) so installed users receive your skill on `/plugin marketplace update`.
 3. `marketplace.json` does **not** need to change.
 4. Open a PR. Maintainers review.
