@@ -6,7 +6,7 @@ Thank you for your interest in contributing to cast-claude.
 
 **Skill** — a folder containing a `SKILL.md` file that teaches Claude how to perform one specific task. Works across all Claude products. Write a skill when you need Claude to know how to do one thing well.
 
-**Plugin** — a Claude Code distribution format. Bundles skills, slash commands, subagents, MCP servers, and hooks into a single installable unit. Wrap a skill in a plugin when you want to ship it (and related pieces) as one package someone can install in one step.
+**Plugin** — a Claude Code distribution format. Bundles skills, slash commands, subagents, MCP servers, and hooks into a single installable unit. Wrap one or more skills in a plugin when you want to ship them as an installable package.
 
 ---
 
@@ -15,115 +15,132 @@ Thank you for your interest in contributing to cast-claude.
 | Track | Who | Where |
 |-------|-----|-------|
 | **Official** | CAST product team | `products/<product>/` |
-| **Community skill** | Consultants and external contributors | `community/skills/<product>/<skill-name>/` |
-| **Community plugin** | Consultants and external contributors | `community/plugins/<product>/<plugin-name>/` |
+| **Community** | Consultants and external contributors | `community/plugins/<product>/` |
+
+---
+
+## How a contribution becomes installable
+
+Both official and community plugins are listed in the repo-root marketplace catalog at [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json). End users add this catalog once and then install whichever plugins they want:
+
+```text
+/plugin marketplace add CAST-Extend/cast-claude
+/plugin install <plugin-name>@cast-claude
+```
+
+Every plugin in the catalog carries a `category` field — `"official"` or `"community"` — so users can tell which is which.
 
 ---
 
 ## Community contributions
 
-### Contributing a skill
+### One community plugin per CAST product
 
-A skill is a single `SKILL.md` file. Place it under the relevant CAST product:
+Community contributions for a given CAST product are bundled into a single plugin so the skills compose. For example, all imaging community skills live in **one** plugin named `imaging-community`, installable as:
 
-```
-community/skills/
-  imaging/
-    <skill-name>/
-      SKILL.md
-  highlight/
-    <skill-name>/
-      SKILL.md
+```text
+/plugin install imaging-community@cast-claude
 ```
 
-**SKILL.md frontmatter** — declare required MCP permissions so users know what to grant locally:
+This keeps the install surface small (one install gets the full consultant-curated workflow), avoids name collisions with the official `imaging` plugin, and lets skills reference each other by name within the same plugin.
 
-```markdown
+The current community bundles:
+
+| Plugin | Source path | CAST product |
+|--------|-------------|--------------|
+| `imaging-community` | `community/plugins/imaging/` | CAST Imaging |
+
+Bundles for `imaging-express`, `highlight`, and `gatekeeper` will be added when those products have community contributions.
+
+### Layout of a community bundle
+
+```
+community/plugins/<product>/
+├── .claude-plugin/
+│   └── plugin.json
+├── skills/
+│   └── <skill-name>/
+│       └── SKILL.md
+└── README.md
+```
+
+Each `SKILL.md` declares its own frontmatter:
+
+```yaml
 ---
 name: my-skill
-description: One-line description of what the skill does.
-permissions:
-  - mcp__imaging__applications
-  - mcp__imaging__objects
-  - Grep
-  - Read
+description: One-line description Claude uses to decide when to invoke this skill.
 ---
 ```
 
-### Contributing a plugin
+For full SKILL.md frontmatter options (including `argument-hint`, `allowed-tools`, and `disable-model-invocation`), see the [official skills reference](https://code.claude.com/docs/en/skills#frontmatter-reference).
 
-A plugin bundles skills with commands, hooks, and MCP wiring. Place it under the relevant product:
+### The plugin manifest — `plugin.json`
 
-```
-community/plugins/
-  imaging/
-    <plugin-name>/
-      .claude-plugin/
-        plugin.json
-      skills/
-        <skill-name>/
-          SKILL.md
-      commands/
-        <command-name>.md
-```
-
-#### Registering the plugin — `plugin.json`
-
-Every plugin must have a `.claude-plugin/plugin.json` manifest. Use this structure:
+Every plugin must have a `.claude-plugin/plugin.json` manifest. Use only fields documented in the [official manifest schema](https://code.claude.com/docs/en/plugins-reference#plugin-manifest-schema):
 
 ```json
 {
-  "name": "my-plugin",
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "<product>-community",
   "version": "0.1.0",
-  "status": "community",
-  "description": "One-line description of what the plugin does.",
-  "homepage": "https://github.com/<your-org>/<your-repo>",
-  "skills": [
-    {
-      "name": "my-skill",
-      "path": "skills/my-skill/SKILL.md",
-      "trigger": "/my-skill",
-      "description": "One-line description of the skill."
-    }
-  ],
-  "commands": [
-    {
-      "name": "my-skill",
-      "path": "commands/my-skill.md",
-      "trigger": "/my-skill",
-      "description": "Slash command that invokes the skill."
-    }
-  ]
+  "description": "One-line description of what this bundle contains.",
+  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>",
+  "keywords": ["cast", "<product>", "community"]
 }
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Unique plugin name, lowercase hyphen-separated |
-| `version` | Yes | Semantic version (`major.minor.patch`) |
-| `status` | Yes | Use `"community"` for contributed plugins |
-| `description` | Yes | One-line summary shown in the marketplace |
-| `homepage` | No | Link to the source repository |
-| `skills` | No | List of skills bundled in this plugin |
-| `commands` | No | List of slash commands exposed by this plugin |
+| Field | Required | Notes |
+|-------|----------|-------|
+| `name` | Yes | Must be `<product>-community` (e.g. `imaging-community`). Lowercase, hyphenated. |
+| `version` | Recommended | Bump on every PR that adds or changes skills so installed users receive updates via `/plugin marketplace update`. |
+| `description` | Recommended | Shown in the `/plugin` Discover tab. |
+| `keywords` | Optional | Tags for discovery. |
 
-Once registered, users can install the plugin directly from the repository:
+Skills are auto-discovered from the `skills/` subdirectory; do not declare them in `plugin.json`.
 
-```bash
-/plugin install CAST-Extend/cast-claude/community/plugins/imaging/<plugin-name>
-```
+### Adding a NEW community plugin
+
+If your CAST product does not yet have a community bundle (e.g. you're the first to contribute a `highlight` community skill), your PR creates the bundle:
+
+1. Create `community/plugins/<product>/.claude-plugin/plugin.json` (use the template above).
+2. Add your skill at `community/plugins/<product>/skills/<skill-name>/SKILL.md`.
+3. Register the new plugin in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json):
+
+   ```json
+   {
+     "name": "<product>-community",
+     "source": "./community/plugins/<product>",
+     "category": "community",
+     "description": "Community-contributed skills for CAST <Product>.",
+     "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>",
+     "license": "MIT",
+     "keywords": ["cast", "<product>", "community"]
+   }
+   ```
+
+4. Open a PR. Maintainers review.
+
+### Adding a skill to an EXISTING bundle
+
+If a community bundle for your CAST product already exists (e.g. `imaging-community`), your PR adds your skill to it:
+
+1. Drop your skill at `community/plugins/<product>/skills/<skill-name>/SKILL.md`.
+2. Bump the bundle's `plugin.json` `version` (patch-level: e.g. `0.1.0` → `0.1.1`) so installed users receive your skill on `/plugin marketplace update`.
+3. `marketplace.json` does **not** need to change.
+4. Open a PR. Maintainers review.
 
 ### Rules
 
-- **Only modify files under `community/`.** The CI workflow will reject any PR that touches files outside `community/`.
-- **Do not commit `settings.local.json`.** It is gitignored. Declare permissions in the SKILL.md frontmatter instead.
-- Skill and plugin names are lowercase, hyphen-separated.
-- Skills must be grounded in CAST data — do not rely on raw source code scanning alone.
+- **Only modify files under `community/`** (or `.claude-plugin/marketplace.json` to register a new bundle). The CI workflow rejects any PR that touches files outside `community/` unless authored by a maintainer.
+- **Do not commit `settings.local.json`.** It is gitignored. Declare required tool permissions in the SKILL.md frontmatter via `allowed-tools` instead.
+- **Skill, plugin, and directory names** are lowercase, hyphen-separated.
+- **Skills must be grounded in CAST data** — do not rely on raw source code scanning alone.
 
 ### Opening a PR
 
 1. Fork the repository and create a branch.
-2. Add your skill(s) under `community/skills/<product>/` or your plugin under `community/plugins/<product>/`.
+2. Make your changes per the "Adding a NEW community plugin" or "Adding a skill to an EXISTING bundle" path above.
 3. Open a PR against `main` with a brief description of each skill/plugin and the CAST product it relies on.
 
 All PRs require approval from a maintainer.
@@ -134,7 +151,8 @@ All PRs require approval from a maintainer.
 
 1. Choose the appropriate product directory under `products/`.
 2. Create a new subdirectory under `products/<product>/skills/<skill-name>/`.
-3. Add a `SKILL.md` file and register it in `products/<product>/.claude-plugin/plugin.json`.
+3. Add a `SKILL.md` file. Skills are auto-discovered; no manifest declaration needed.
+4. Register the plugin (if new) in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) with `"category": "official"`.
 
 ### Conventions
 

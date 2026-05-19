@@ -2,6 +2,8 @@
 
 ```
 cast-claude/
+├── .claude-plugin/
+│   └── marketplace.json              # Marketplace catalog (lists all installable plugins)
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   └── workflows/
@@ -10,26 +12,22 @@ cast-claude/
 │   ├── imaging/                       # CAST Imaging plugin (Alpha)
 │   │   ├── .claude-plugin/
 │   │   │   └── plugin.json
-│   │   ├── commands/
-│   │   │   └── impact-analysis.md
-│   │   └── skills/
-│   │       └── impact-analysis/
-│   │           └── SKILL.md
-│   ├── imaging-express/               # CAST Imaging Express plugin (Alpha)
+│   │   ├── skills/
+│   │   │   └── impact-analysis/
+│   │   │       └── SKILL.md
+│   │   └── README.md
+│   ├── imaging-express/               # CAST Imaging Express plugin (Planned)
 │   ├── highlight/                     # CAST Highlight plugin (Planned)
 │   └── gatekeeper/                    # CAST Gatekeeper plugin (Planned)
-├── community/                         # Consultant contributions
-│   ├── skills/                        # Standalone skills by product
-│   │   └── <product>/
-│   │       └── <skill-name>/
-│   │           └── SKILL.md
-│   └── plugins/                       # Full plugin packages by product
-│       └── <product>/
-│           └── <plugin-name>/
-│               ├── .claude-plugin/
-│               │   └── plugin.json
-│               ├── skills/
-│               └── commands/
+├── community/                         # Consultant-contributed plugins
+│   └── plugins/
+│       └── <product>/                 # One bundled community plugin per CAST product
+│           ├── .claude-plugin/
+│           │   └── plugin.json
+│           ├── skills/
+│           │   └── <skill-name>/
+│           │       └── SKILL.md
+│           └── README.md
 ├── CODEOWNERS
 ├── CONTRIBUTING.md
 ├── CHANGELOG.md
@@ -43,18 +41,23 @@ cast-claude/
 
 **Plugin** — a distribution format specific to Claude Code. A plugin bundles skills, slash commands, subagents, MCP servers, and hooks into a single installable unit (`/plugin install`). Plugins contain skills, not the other way around.
 
-## Official products
+**Marketplace** — a catalog of plugins distributed via the [`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json) at the repo root. Users add the marketplace once (`/plugin marketplace add CAST-Extend/cast-claude`) and then install whichever plugins they want.
 
-| Plugin | Status | Description |
-|--------|--------|-------------|
-| `imaging` | Alpha | Impact analysis and dependency skills powered by CAST Imaging |
-| `imaging-express` | Alpha | Lightweight skills powered by CAST Imaging Express |
-| `highlight` | Planned | Portfolio skills powered by CAST Highlight |
-| `gatekeeper` | Planned | Gate and policy skills powered by CAST Gatekeeper |
+## Plugins
 
-## Community
+| Plugin | Category | Status | Description |
+|--------|----------|--------|-------------|
+| `imaging` | official | Alpha | Impact analysis and dependency skills powered by CAST Imaging |
+| `imaging-community` | community | Alpha | 25 consultant-contributed skills for CAST Imaging |
+| `imaging-express` | official | Planned | Lightweight skills powered by CAST Imaging Express |
+| `highlight` | official | Planned | Portfolio skills powered by CAST Highlight |
+| `gatekeeper` | official | Planned | Gate and policy skills powered by CAST Gatekeeper |
 
-| Area | Path | What goes here |
-|------|------|----------------|
-| Skills | `community/skills/<product>/<skill-name>/` | A single `SKILL.md` teaching Claude one workflow |
-| Plugins | `community/plugins/<product>/<plugin-name>/` | A full plugin package with `.claude-plugin/`, commands, hooks |
+## Contribution tracks
+
+| Track | Path | What lives here |
+|-------|------|------------------|
+| Official | `products/<product>/` | Plugins maintained by the CAST product team |
+| Community | `community/plugins/<product>/` | One bundled plugin per CAST product, curated by consultants |
+
+For the community contribution workflow (layout, naming convention, marketplace-entry step), see [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -1,35 +1,47 @@
 # cast-claude
 
-Skills and plugins for using Claude with CAST products.
+Skills and plugins for using Claude with [CAST](https://www.castsoftware.com/) products.
 
-Each skill encodes a specific AI-assisted engineering workflow — impact analysis, dependency mapping, architectural Q&A — using CAST's Software Intelligence rather than raw code search. This ensures analyses are deterministic, traceable, and grounded in CAST's data model.
+Each skill encodes a specific AI-assisted engineering workflow — impact analysis, dependency mapping, architectural review, persistence audits — grounded in CAST's Software Intelligence rather than raw code search. Analyses are deterministic, traceable, and tied to CAST's data model.
 
-## Official plugins
+## Install
 
-| Plugin | Status | Description |
-|--------|--------|-------------|
-| [`imaging`](products/imaging/) | Alpha | Impact analysis and code dependency skills powered by CAST Imaging |
-| [`imaging-express`](products/imaging-express/) | Alpha | Lightweight skills powered by CAST Imaging Express |
-| [`highlight`](products/highlight/) | Planned | Portfolio-level skills powered by CAST Highlight |
-| [`gatekeeper`](products/gatekeeper/) | Planned | Gate and policy enforcement skills powered by CAST Gatekeeper |
+Inside Claude Code, add the `cast-claude` marketplace once:
 
-## Getting started
-
-```bash
-# Install a plugin directly from this repository
-/plugin install CAST-Extend/cast-claude/products/imaging
+```text
+/plugin marketplace add CAST-Extend/cast-claude
 ```
 
-## Community
+Then install whichever plugins you want:
 
-Standalone skills and plugins contributed by consultants, organized by CAST product.
+```text
+/plugin install imaging@cast-claude
+/plugin install imaging-community@cast-claude
+/reload-plugins
+```
 
-- [`community/skills/`](community/skills/) — individual skills, ready to use as-is
-- [`community/plugins/`](community/plugins/) — full plugin packages with commands and hooks
+Plugins install to your **user scope** by default — they stay available across all Claude Code sessions and projects.
+
+## Plugins
+
+| Plugin | Category | Description |
+|--------|----------|-------------|
+| [`imaging`](products/imaging/) | official | Impact analysis: callers, callees, transactions, data flows, and cross-app reach for any code object. |
+| [`imaging-community`](community/plugins/imaging/) | community | 25 consultant-curated skills for CAST Imaging: architectural reviews, persistence and database analysis, security audits, modernization assessment, and orchestrated reports. |
+
+Plugins install side by side with no name collision; install whichever you need.
+
+## Roadmap
+
+Plugins for the other CAST products will land here as they're built:
+
+- `imaging-express` — lightweight skills powered by CAST Imaging Express
+- `highlight` — portfolio-level skills powered by CAST Highlight
+- `gatekeeper` — gate and policy enforcement skills powered by CAST Gatekeeper
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Community contributions are welcome under [`community/plugins/<product>/`](community/plugins/). See [CONTRIBUTING.md](CONTRIBUTING.md) for the layout, naming convention, and PR workflow.
 
 ## License
 
