@@ -1,37 +1,40 @@
-# imaging
+# CAST Imaging — Claude Code plugin
 
-AI-powered analysis skills for [CAST Imaging](https://www.castsoftware.com/imaging).
+AI-powered impact analysis powered by [CAST Imaging](https://www.castsoftware.com/imaging). Status: alpha.
 
-## Skills
+## What this plugin adds
 
-| Skill | Trigger | Description |
-|-------|---------|-------------|
-| `impact-analysis` | `/impact-analysis` | Evaluate the scope and risk of code changes across your application landscape |
+| Skill | Description |
+|-------|-------------|
+| `impact-analysis` | Risk-scored impact report for a code object: callers, callees, transactions, data flows, and cross-app reach. |
+
+Claude invokes the skill automatically when you ask things like:
+- "What breaks if I change X?"
+- "Is it safe to remove X?"
+- "Blast radius of X?"
+
+Or trigger it explicitly:
+
+```text
+/imaging:impact-analysis [application] [object_name]
+```
 
 ## Prerequisites
 
-- [Claude Code](https://claude.ai/code) CLI installed
+- [Claude Code](https://claude.ai/code) installed
 - A running [CAST Imaging](https://www.castsoftware.com/imaging) instance
-- The CAST Imaging MCP server installed and registered in your Claude Code settings as **`imaging`** (see [official setup guide](https://doc.castsoftware.com/mcp-server/windows/))
+- The CAST Imaging MCP server registered in your Claude Code config as `imaging` — see the [CAST Imaging MCP setup guide](https://doc.castsoftware.com/mcp-server/windows/)
 
-## Installation
+## Install
+
+Clone the repo and load the plugin directly:
 
 ```bash
-/plugin install CAST-Extend/cast-claude/products/imaging
+git clone https://github.com/CAST-Extend/cast-claude.git
+claude --plugin-dir ./cast-claude/products/imaging
 ```
 
-## Usage
-
-**Run explicitly:**
-```
-/impact-analysis [application] [object_name]
-```
-
-**Or trigger automatically by asking:**
-- "What breaks if I change X?"
-- "Is it safe to remove X?"
-- "What depends on X?"
-- "Blast radius of X?"
+> A marketplace-based install (`/plugin install imaging@cast-claude`) will be available once the repo ships its `.claude-plugin/marketplace.json`.
 
 ## License
 

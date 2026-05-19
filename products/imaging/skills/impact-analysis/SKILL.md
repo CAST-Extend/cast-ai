@@ -1,6 +1,17 @@
 ---
 name: impact-analysis
 description: This skill should be used when the user asks about the impact, risk, regression risk, blast radius, or safety of changing, removing, or refactoring an object in a CAST Imaging application. Triggers on phrases like "What breaks if I change X?", "Blast radius of X", "What depends on X?", "Is it safe to change X?", "Who calls X?", "What would break?", "Dependencies of X", or any variant asking about downstream effects of modifying code objects.
+argument-hint: "[application] [object_name]"
+allowed-tools:
+  - mcp__imaging__applications
+  - mcp__imaging__objects
+  - mcp__imaging__object_details
+  - mcp__imaging__transactions_using_object
+  - mcp__imaging__transaction_details
+  - mcp__imaging__data_graphs_involving_object
+  - mcp__imaging__data_graph_details
+  - mcp__imaging__inter_applications_dependencies
+  - mcp__imaging__manage_object_tags
 ---
 
 # CAST Imaging — Impact Analysis

@@ -1,23 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "imaging",
   "version": "0.1.0",
-  "status": "alpha",
-  "description": "Impact analysis and code dependency skills powered by CAST Imaging",
-  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/plugins/imaging",
-  "skills": [
-    {
-      "name": "impact-analysis",
-      "path": "skills/impact-analysis/SKILL.md",
-      "trigger": "/impact-analysis",
-      "description": "Assess the blast radius of a code change using CAST Imaging dependency data"
-    }
-  ],
-  "commands": [
-    {
-      "name": "impact-analysis",
-      "path": "commands/impact-analysis.md",
-      "trigger": "/impact-analysis",
-      "description": "Run impact analysis on a CAST Imaging object"
-    }
-  ]
+  "description": "Impact analysis and code dependency skills powered by CAST Imaging (alpha)",
+  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/products/imaging",
+  "keywords": ["cast", "imaging", "impact-analysis"]
 }
