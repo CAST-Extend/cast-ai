@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace.json",
+  "name": "cast-claude",
+  "description": "Skills and plugins for using Claude with CAST products",
+  "owner": {
+    "name": "CAST Software"
+  },
+  "plugins": [
+    {
+      "name": "imaging",
+      "source": "./products/imaging",
+      "description": "Impact analysis and code dependency skills powered by CAST Imaging (alpha)",
+      "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/products/imaging",
+      "license": "MIT",
+      "keywords": ["cast", "imaging", "impact-analysis"]
+    }
+  ]
+}
