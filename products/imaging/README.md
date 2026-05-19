@@ -25,29 +25,6 @@ Then activate it for the current session:
 
 The plugin installs to your **user scope** by default — it stays available across all your Claude Code sessions and projects. To install for a specific project or for yourself only in this repository, run `/plugin` and pick a scope from the interactive UI.
 
-### Verify
-
-```text
-/help
-```
-
-You should see `/imaging:impact-analysis` listed. Run `/plugin` and check the **Installed** tab to confirm `imaging@cast-claude` is enabled with no errors.
-
-### Update
-
-When a new version of the plugin ships:
-
-```text
-/plugin marketplace update cast-claude
-/reload-plugins
-```
-
-### Uninstall
-
-```text
-/plugin uninstall imaging@cast-claude
-```
-
 ## What this plugin adds
 
 | Skill | Description |
@@ -63,6 +40,21 @@ Or trigger it explicitly:
 
 ```text
 /imaging:impact-analysis [application] [object_name]
+```
+
+### Update
+
+When a new version of the plugin ships:
+
+```text
+/plugin marketplace update cast-claude
+/reload-plugins
+```
+
+### Uninstall
+
+```text
+/plugin uninstall imaging@cast-claude
 ```
 
 ## License
