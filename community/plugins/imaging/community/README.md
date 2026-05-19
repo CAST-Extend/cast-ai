@@ -114,10 +114,6 @@ When new skills are added or existing ones improved:
 /plugin uninstall imaging-community@cast-claude
 ```
 
-## Relationship to the official `imaging` plugin
-
-The official [`imaging`](https://github.com/CAST-Extend/cast-claude/tree/main/products/imaging) plugin ships the maintained `impact-analysis` skill. `imaging-community` complements it with 25 specialist skills curated by CAST consultants. The two install side by side with no name collision and can both be enabled.
-
 ## Contributing
 
 See the [community contributions section of CONTRIBUTING.md](https://github.com/CAST-Extend/cast-claude/blob/main/CONTRIBUTING.md#community-contributions) for how to add a new skill to this bundle.
