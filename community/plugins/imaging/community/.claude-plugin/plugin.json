@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "imaging-community",
+  "version": "0.1.0",
+  "description": "Community-contributed skills for CAST Imaging: architectural reviews, persistence analysis, modernization, security, and orchestration workflows",
+  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/imaging/community",
+  "keywords": ["cast", "imaging", "community", "review", "architecture"]
+}
