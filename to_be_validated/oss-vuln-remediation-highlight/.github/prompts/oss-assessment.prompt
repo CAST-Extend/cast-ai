@@ -1,0 +1,96 @@
+---
+name: CAST OSS Assessment
+description: Forces latest Highlight scan, fetches CVEs first, flags by severity, writes oss_remediation_plan.md. Uses APP_NAME and HIGHLIGHT_APP_ID already resolved in this conversation — no re-entry needed.
+model: claude-sonnet-4-6
+mode: agent
+tools:
+  - mcp: cast-highlight
+---
+
+# Step 1 — OSS Assessment
+
+Use APP_NAME, HIGHLIGHT_NAME, and HIGHLIGHT_APP_ID already resolved
+in this conversation. Do not ask the user to re-enter them.
+If any are missing from context, say so and stop — do not guess.
+
+Follow #file:.github/skills/highlight-data-fetch.md exactly for Steps 0 and 1.
+
+Key notes:
+- Step 0 of the skill uses HIGHLIGHT_APP_ID (integer) for cache refresh.
+- nature=third_parties returns safe upgrade versions and per-component license data directly — use them.
+
+## Flag each component
+- 🔴 CRITICAL — CVSS ≥ 9 or KEV
+- 🟠 HIGH — CVSS 7–8.9
+- 🟡 MEDIUM — CVSS 4–6.9
+- ⚠️ LICENSE — GPL, AGPL, LGPL, unknown
+- 📅 OUTDATED — newer stable version exists, no CVE
+
+A component can carry multiple flags.
+
+## Prioritise
+- P1 = any 🔴 CRITICAL
+- P2 = any 🟠 HIGH, no CRITICAL
+- P3 = 🟡 MEDIUM, ⚠️ LICENSE, or 📅 OUTDATED only
+
+## Write oss_remediation_plan.md
+
+```md
+# OSS Remediation Plan — <HIGHLIGHT_NAME>
+
+| | |
+|---|---|
+| Highlight snapshot date | <lastAnalysisDate> |
+| Snapshot label          | <snapshotLabel> |
+| Report generated        | <now> |
+| Source                  | CAST Highlight MCP — live scan, no cache |
+
+## Summary
+| Severity | Count |
+|----------|-------|
+| 🔴 Critical | |
+| 🟠 High | |
+| 🟡 Medium | |
+| ⚠️ License risk | |
+| 📅 Outdated | |
+| ✅ Clean | |
+| Total OSS components | |
+
+| Priority | Count |
+|---|---|
+| P1 | |
+| P2 | |
+| P3 | |
+
+## P1 — Critical (act immediately)
+### P1.1 — <component>@<current_version>
+**Flags:** 🔴 CRITICAL
+- License: ...
+- CVEs: CVE-XXXX-XXXX · CVSS X.X · KEV: yes/no
+- Nearest safe version: x.y.z
+- Latest safe version: x.y.z
+- Remediation: upgrade | replace | isolate
+
+## P2 — High
+[same structure]
+
+## P3 — Medium / License / Outdated
+[same structure]
+
+## Clean components
+| Component | Version | License |
+|-----------|---------|---------||
+
+## Consolidated Remediation Action Plan
+
+This table is **always the last section** of the file.
+List every component that needs action, ordered by execution priority:
+P1 first, then P2, then P3 CVE items, then P3 license-only, then P3 outdated.
+Clean components are excluded.
+
+| Priority | Component (Highlight) | Current Version | Target Version | Action Required |
+|----------|-----------------------|-----------------|----------------|-----------------|
+| P1.1 | ... | ... | ... | Upgrade to x.y.z |
+| P3.1 | ... | ... | ... | Upgrade to x.y.z |
+| P3.x | ... | ... | N/A | Validate false-positive / Review license |
+```

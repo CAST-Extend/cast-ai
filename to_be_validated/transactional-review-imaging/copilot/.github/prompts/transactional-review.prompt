@@ -1,0 +1,11 @@
+---
+mode: agent
+model: gpt-4o
+tools:
+  - cast-imaging
+description: Review @Transactional usage in a Java application using CAST Imaging
+---
+
+Follow the workflow defined in [skills/transactional-review.md](../../../skills/transactional-review.md).
+
+Application: $ARGUMENTS

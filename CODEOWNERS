@@ -1,10 +1,9 @@
 # Global owners — repo config, workflows, docs
 * @cgufflet @obonsignour @raghumadhava
 
-# Official product plugins — product team only
-/products/ @cgufflet @obonsignour @raghumadhava
+# Validated assets — reviewers only.
+# The validate-contributor-scope workflow blocks contributor PRs that touch this path.
+/assets/ @cgufflet @obonsignour @raghumadhava
 
-# Community contributions — maintainer approval required on all PRs.
-# Path-scope enforcement (contributors may only touch community/)
-# is handled by the validate-contributor-scope GitHub Actions workflow.
-/community/ @cgufflet @obonsignour @raghumadhava
+# Incoming submissions — open to all contributors, reviewer approval required to merge.
+/to_be_validated/ @cgufflet @obonsignour @raghumadhava

@@ -1,0 +1,69 @@
+---
+name: CAST OSS Remediation
+description: Executes P1 remediation from oss_remediation_plan.md. Uses all values resolved in this conversation — no re-entry needed. Run after app-resolver and oss-assessment in the same chat session.
+model: claude-sonnet-4-6
+mode: agent
+tools:
+  - mcp: cast-highlight
+  - codebase
+---
+
+# Step 2 — OSS Remediation — P1 only
+
+Use APP_NAME, HIGHLIGHT_NAME, and HIGHLIGHT_APP_ID already resolved in this conversation.
+Do not ask the user to re-enter them.
+If any are missing from context, say so and stop — do not guess.
+
+Input: #file:oss_remediation_plan.md
+
+## Pre-flight checks
+1. `get_application_info` name=HIGHLIGHT_NAME → must return results.
+2. Confirm `oss_remediation_plan.md` exists in the workspace and contains a P1 section.
+If either fails: stop and report to user — do not proceed.
+
+## Rules (one P1 item at a time)
+
+1. Work P1 items in order: P1.1, P1.2, … one at a time.
+
+2. Before each fix, run the full workspace dependency analysis:
+   Follow #file:.github/skills/workspace-dependency-analysis.md exactly.
+   Inputs: component name and detected version from oss_remediation_plan.md.
+   Wait for the blast radius report before proceeding.
+
+2b. Cross-validate manifest files:
+   pom.xml · package.json · requirements.txt · build.gradle · *.csproj
+   Workspace source code is ground truth — if declared version differs from Highlight, note discrepancy.
+   Never skip if workspace search returns no results — the component may be a transitive dependency.
+
+3. Apply the decision gate from the skill:
+   - Blocker present → stop, present blast radius report to user, await explicit confirmation.
+   - No blocker → proceed to fix.
+   - Usage not locatable → skip fix, flag for manual investigation, move to next P1 item.
+
+4. Apply fix using nearest safe version from oss_remediation_plan.md.
+   Use latest safe only if nearest safe breaks a confirmed dependency.
+
+5. Wrap all modified lines:
+   ```
+   // AI remediation begin — <component> <old_version> → <new_version>
+   <changed lines>
+   // AI remediation end
+   ```
+
+6. Run build after each fix:
+   - Pass → move to next action.
+   - Fail → revert, log failure with reason, skip to next action.
+
+7. After all P1 items, output completion summary:
+   | Item | Component | Old Ver | New Ver | Result | Notes |
+   |------|-----------|---------|---------|--------|-------|
+
+## Do not
+- Re-ask for any app name or IDs already in conversation context.
+- Fix P2 or P3 items in this session.
+- Batch multiple component changes.
+- Proceed past a build failure without reverting.
+- Treat workspace silence as confirmation a component is unused — it may be a transitive dependency.
+
+## Start
+Complete pre-flight checks, then begin P1.1 from oss_remediation_plan.md.

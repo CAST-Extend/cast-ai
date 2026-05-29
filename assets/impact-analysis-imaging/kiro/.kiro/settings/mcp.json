@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "imaging": {
+      "command": "npx",
+      "args": ["-y", "@cast-software/imaging-mcp"],
+      "env": {
+        "IMAGING_URL": "https://<your-imaging-instance>/mcp",
+        "IMAGING_API_KEY": "${IMAGING_API_KEY}"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

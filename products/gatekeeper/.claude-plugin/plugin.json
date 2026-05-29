@@ -1,8 +1,0 @@
-{
-  "name": "gatekeeper",
-  "version": "0.0.0",
-  "status": "planned",
-  "description": "Gate and policy enforcement skills powered by CAST Gatekeeper",
-  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/plugins/gatekeeper",
-  "skills": []
-}

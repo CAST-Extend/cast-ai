@@ -1,0 +1,11 @@
+---
+mode: agent
+model: gpt-4o
+tools:
+  - cast-imaging
+description: Run CAST Imaging impact analysis on a code object
+---
+
+Follow the workflow defined in [skills/impact-analysis.md](../../../skills/impact-analysis.md).
+
+Target object: $ARGUMENTS

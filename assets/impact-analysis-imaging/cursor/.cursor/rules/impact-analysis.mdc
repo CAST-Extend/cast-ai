@@ -1,0 +1,7 @@
+---
+description: Run CAST Imaging impact analysis on a code object
+globs:
+alwaysApply: false
+---
+
+Follow the workflow defined in [skills/impact-analysis.md](../../../skills/impact-analysis.md).

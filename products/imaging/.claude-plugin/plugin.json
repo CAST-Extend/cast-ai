@@ -1,8 +1,0 @@
-{
-  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "imaging",
-  "version": "0.1.0",
-  "description": "Impact analysis and code dependency skills powered by CAST Imaging (alpha)",
-  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/products/imaging",
-  "keywords": ["cast", "imaging", "impact-analysis"]
-}

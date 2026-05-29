@@ -1,0 +1,7 @@
+---
+description: Review @Transactional usage in a Java application using CAST Imaging
+globs:
+alwaysApply: false
+---
+
+Follow the workflow defined in [skills/transactional-review.md](../../../skills/transactional-review.md).

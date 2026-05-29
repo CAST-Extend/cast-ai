@@ -1,0 +1,44 @@
+---
+name: CAST App Resolver
+description: Resolves app identity in both Highlight and Imaging. Run once per session. All resolved values are stored in conversation context for subsequent prompts.
+model: claude-sonnet-4-6
+mode: agent
+tools:
+  - mcp: cast-highlight
+  - mcp: imaging
+  - codebase
+variables:
+  - name: APP_NAME
+    description: "Application name to resolve"
+    required: true
+---
+
+# Step 1 — Resolve App Identity
+APP_NAME: "{{APP_NAME}}"
+
+## Part A — CAST Highlight
+Follow #file:.github/skills/highlight-app-resolver.md exactly.
+Store result as: HIGHLIGHT_NAME (string) and HIGHLIGHT_APP_ID (integer).
+
+## Part B — CAST Imaging
+Follow #file:.github/skills/imaging-app-resolver.md exactly.
+Use HIGHLIGHT_NAME as the candidate name input.
+Store result as: IMAGING_APP_NAME (string).
+
+## Confirm with user — then store in conversation context
+
+Print and wait for user confirmation:
+```
+✅ App identity resolved
+─────────────────────────────────────
+APP_NAME         : {{APP_NAME}}
+HIGHLIGHT_NAME   : <resolved exact name>
+HIGHLIGHT_APP_ID : <integer>
+IMAGING_APP_NAME : <resolved exact name>
+─────────────────────────────────────
+Ready for Step 1. Paste the next prompt to continue.
+```
+
+Once confirmed, these values are set for the rest of this conversation.
+Do not ask for them again. If a subsequent prompt needs them and they are
+missing from context, say so and stop — do not guess.

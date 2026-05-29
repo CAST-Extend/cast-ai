@@ -6,7 +6,7 @@ on:
 
 jobs:
   validate-scope:
-    name: Check changed files are within contributor folder
+    name: Check changed files are within contributor scope
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,17 +22,17 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           # Keep in sync with CODEOWNERS
-          MAINTAINERS: "cgufflet obonsignour raghumadhava"
+          REVIEWERS: "cgufflet obonsignour raghumadhava"
         run: |
-          # Maintainers can touch anything
-          for m in $MAINTAINERS; do
-            if [ "$PR_AUTHOR" = "$m" ]; then
-              echo "✅ $PR_AUTHOR is a maintainer — no path restriction"
+          # Reviewers can touch anything (assets/, to_be_validated/, root files)
+          for r in $REVIEWERS; do
+            if [ "$PR_AUTHOR" = "$r" ]; then
+              echo "✅ $PR_AUTHOR is a reviewer — no path restriction"
               exit 0
             fi
           done
 
-          echo "🔍 $PR_AUTHOR is an external contributor — checking path scope"
+          echo "🔍 $PR_AUTHOR is a contributor — checking path scope"
 
           FAILED=false
 
@@ -42,18 +42,26 @@ jobs:
           while IFS= read -r file; do
             [ -z "$file" ] && continue
 
-            # Block settings.local.json anywhere in the PR
+            # Block secrets and local config anywhere in the PR
             if [[ "$(basename "$file")" == "settings.local.json" ]]; then
               echo "❌ settings.local.json must not be committed: $file"
-              echo "   Declare required permissions in the SKILL.md frontmatter instead."
               FAILED=true
               continue
             fi
 
-            # All files must be under community/
-            if [[ "$file" != "community/"* ]]; then
+            # Block assets/ — only reviewers may modify validated assets
+            if [[ "$file" == "assets/"* ]]; then
+              echo "❌ File in protected scope: $file"
+              echo "   Only reviewers may modify files under assets/."
+              echo "   Submit your asset to to_be_validated/ and a reviewer will promote it."
+              FAILED=true
+              continue
+            fi
+
+            # All other files must be under to_be_validated/
+            if [[ "$file" != "to_be_validated/"* ]]; then
               echo "❌ File outside allowed scope: $file"
-              echo "   External contributors may only modify files under: community/"
+              echo "   Contributors may only modify files under to_be_validated/."
               FAILED=true
             fi
           done <<< "$CHANGED"
@@ -64,4 +72,4 @@ jobs:
             exit 1
           fi
 
-          echo "✅ All changed files are within $ALLOWED_PREFIX"
+          echo "✅ All changed files are within to_be_validated/"

@@ -1,167 +1,153 @@
 # Contributing
 
-Thank you for your interest in contributing to cast-claude.
+## How it works
 
-## Concepts
+- `to_be_validated/` — open to all contributors. Create a folder, add your asset, open a PR.
+- `assets/` — reviewers move assets here after testing and validation.
 
-**Skill** — a folder containing a `SKILL.md` file that teaches Claude how to perform one specific task. Works across all Claude products. Write a skill when you need Claude to know how to do one thing well.
+## Transforming a skill into an asset
 
-**Plugin** — a Claude Code distribution format. Bundles skills, slash commands, subagents, MCP servers, and hooks into a single installable unit. Wrap one or more skills in a plugin when you want to ship them as an installable package.
+If you already have a working skill — a prompt file, a SKILL.md, a Copilot prompt, or any workflow definition — you can use your AI IDE to package it as a proper asset. Paste the prompt below into your AI assistant with your skill file open.
+
+```
+I have a skill file that implements an AI-assisted workflow using CAST products.
+Help me turn it into a cast-ai asset following the repository conventions.
+
+Do the following steps:
+
+1. **Extract the core workflow** into `skills/<skill-name>.md`.
+   Remove any provider-specific frontmatter (model, mode, tools declarations).
+   Keep the full prompt logic, MCP tool calls, output format, and rules.
+
+2. **Create provider adapter stubs** for each AI IDE the skill is compatible with.
+   Use only the adapters that make sense given the skill's MCP requirements:
+   - `copilot/`  → `.github/prompts/<skill-name>.prompt` + `.vscode/mcp.json`
+   - `claude/`   → `.claude/commands/<skill-name>.md` + `.claude/skills/<skill-name>/SKILL.md`
+   - `cursor/`   → `.cursor/rules/<skill-name>.mdc`
+   - `gemini/`   → `.gemini/settings.json` + `.gemini/styleguide.md`
+   - `kiro/`     → `.kiro/settings/mcp.json` + `.kiro/steering/<skill-name>.md`
+   Each adapter must reference `skills/<skill-name>.md` rather than duplicating the workflow.
+   MCP server URLs and API keys must use placeholders — never hardcode credentials.
+
+3. **Write `README.md`** using this exact section order:
+   # <Asset name>
+   ## Executive Summary
+   ## CAST Use Case
+   <!-- One of: Tech debt reduction | Risk reduction | Technology upgrades |
+        App maintenance & enhancement | Modernization acceleration |
+        Business rule extraction | Other -->
+   ## Target Users
+   ## Benefits
+   ## Asset Status
+   <!-- One of: Demonstration only | Pilot-ready | Production-tested -->
+   ## Solution Description
+   ## Outputs Produced
+   ## Workflow
+   ## Pre-requisites
+   ## Limitations
+   ## Assets / Package Contents
+
+   Derive each field from the skill content. Do not invent information —
+   if a field cannot be determined from the skill, leave a <!-- TODO --> comment.
+
+4. **Name the asset folder** in lowercase, hyphen-separated, descriptive of the workflow
+   (e.g. `oss-vuln-remediation-highlight`, `impact-analysis-imaging`).
+   Do not encode the provider name in the folder name.
+
+5. **Check for secrets**: scan all generated files for hardcoded API keys, tokens,
+   domain IDs, UUIDs, or URLs that look like real endpoints. Replace with placeholders.
+
+Place the result under `to_be_validated/<asset-name>/` and open a PR.
+```
 
 ---
 
-## Contribution tracks
+## Submitting an asset
 
-| Track | Who | Where |
-|-------|-----|-------|
-| **Official** | CAST product team | `products/<product>/` |
-| **Community** | Consultants and external contributors | `community/plugins/<product>/` |
+1. Create a folder under `to_be_validated/<your-asset-name>/` (lowercase, hyphen-separated).
+2. Add a `README.md` using the template below.
+3. Add your asset files (skills, provider adapters).
+4. Open a PR against `main`. CI will check that your changes stay within `to_be_validated/`.
 
----
+A reviewer will test the asset and either request changes or move it to `assets/`.
 
-## How a contribution becomes installable
+## Asset README template
 
-Both official and community plugins are listed in the repo-root marketplace catalog at [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json). End users add this catalog once and then install whichever plugins they want:
+```markdown
+# <Asset name>
 
-```text
-/plugin marketplace add CAST-Extend/cast-claude
-/plugin install <plugin-name>@cast-claude
+## Executive Summary
+<!-- One paragraph: what problem this solves, how it works, who it's for. -->
+
+## CAST Use Case
+<!-- One of: Tech debt reduction | Risk reduction | Technology upgrades |
+     App maintenance & enhancement | Modernization acceleration |
+     Business rule extraction | Other -->
+
+## Target Users
+<!-- e.g. Application developer, Architect, Tech lead -->
+
+## Benefits
+<!-- Bullet list: what the user gains (accuracy, speed, effort reduction…) -->
+
+## Asset Status
+<!-- One of: Demonstration only | Pilot-ready | Production-tested -->
+
+## Solution Description
+<!-- How the asset works technically: which CAST products are queried,
+     what the AI does with the data, how fixes or outputs are validated. -->
+
+## Outputs Produced
+<!-- What the user gets at the end: remediated code, reports, diagrams… -->
+
+## Workflow
+<!-- Linear sequence, e.g.:
+     Developer prompt → AI request → CAST data retrieval → generated fix → validation → human review -->
+
+## Pre-requisites
+<!-- CAST products required, MCP configuration, AI IDE / LLM provider. -->
+
+## Limitations
+<!-- Known gaps: manual steps required, unsupported technologies,
+     dependency on scan completeness, etc. -->
+
+## Assets / Package Contents
+<!-- Table of files/folders in this asset and what each one does. -->
 ```
 
-Every plugin in the catalog carries a `category` field — `"official"` or `"community"` — so users can tell which is which.
-
----
-
-## Community contributions
-
-### One community plugin per CAST product
-
-Community contributions for a given CAST product are bundled into a single plugin so the skills compose. For example, all imaging community skills live in **one** plugin named `imaging-community`, installable as:
-
-```text
-/plugin install imaging-community@cast-claude
-```
-
-This keeps the install surface small (one install gets the full consultant-curated workflow), avoids name collisions with the official `imaging` plugin, and lets skills reference each other by name within the same plugin.
-
-The current community bundles:
-
-| Plugin | Source path | CAST product |
-|--------|-------------|--------------|
-| `imaging-community` | `community/plugins/imaging/` | CAST Imaging |
-
-Bundles for `imaging-express`, `highlight`, and `gatekeeper` will be added when those products have community contributions.
-
-### Layout of a community bundle
+## Asset folder layout
 
 ```
-community/plugins/<product>/
-├── .claude-plugin/
-│   └── plugin.json
-├── skills/
-│   └── <skill-name>/
-│       └── SKILL.md
-└── README.md
+to_be_validated/<asset-name>/
+  README.md
+  skills/             provider-agnostic prompts and workflow definitions
+  copilot/            GitHub Copilot adapter (drop into project root)
+    .github/
+    .vscode/
+  claude/             Claude Code adapter (drop into project root)
+    .claude/
+  cursor/             Cursor adapter (drop into project root)
+    .cursor/
+  gemini/             Gemini Code Assist adapter (drop into project root)
+    .gemini/
+  kiro/               Amazon Kiro adapter (drop into project root)
+    .kiro/
 ```
 
-Each `SKILL.md` declares its own frontmatter:
+Provider adapters are optional — submit what you have. Other contributors can add adapters later.
 
-```yaml
----
-name: my-skill
-description: One-line description Claude uses to decide when to invoke this skill.
----
-```
+## Rules
 
-For full SKILL.md frontmatter options (including `argument-hint`, `allowed-tools`, and `disable-model-invocation`), see the [official skills reference](https://code.claude.com/docs/en/skills#frontmatter-reference).
+- Only modify files under `to_be_validated/`. The CI workflow rejects PRs that touch `assets/`.
+- Asset names are lowercase, hyphen-separated.
+- Workflows must be grounded in CAST data — do not rely on raw source code scanning alone.
+- Do not commit secrets, API keys, or personal credentials.
 
-### The plugin manifest — `plugin.json`
+## Review process
 
-Every plugin must have a `.claude-plugin/plugin.json` manifest. Use only fields documented in the [official manifest schema](https://code.claude.com/docs/en/plugins-reference#plugin-manifest-schema):
+Reviewers validate that the asset:
+- Works end-to-end with the declared prerequisites
+- Follows the README template
+- Does not duplicate an existing validated asset
 
-```json
-{
-  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "<product>-community",
-  "version": "0.1.0",
-  "description": "One-line description of what this bundle contains.",
-  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>",
-  "keywords": ["cast", "<product>", "community"]
-}
-```
-
-| Field | Required | Notes |
-|-------|----------|-------|
-| `name` | Yes | Must be `<product>-community` (e.g. `imaging-community`). Lowercase, hyphenated. |
-| `version` | Recommended | Bump on every PR that adds or changes skills so installed users receive updates via `/plugin marketplace update`. |
-| `description` | Recommended | Shown in the `/plugin` Discover tab. |
-| `keywords` | Optional | Tags for discovery. |
-
-Skills are auto-discovered from the `skills/` subdirectory; do not declare them in `plugin.json`.
-
-### Adding a NEW community plugin
-
-If your CAST product does not yet have a community bundle (e.g. you're the first to contribute a `highlight` community skill), your PR creates the bundle:
-
-1. Create `community/plugins/<product>/.claude-plugin/plugin.json` (use the template above).
-2. Add your skill at `community/plugins/<product>/skills/<skill-name>/SKILL.md`.
-3. Register the new plugin in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json):
-
-   ```json
-   {
-     "name": "<product>-community",
-     "source": "./community/plugins/<product>",
-     "category": "community",
-     "description": "Community-contributed skills for CAST <Product>.",
-     "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/community/plugins/<product>",
-     "license": "MIT",
-     "keywords": ["cast", "<product>", "community"]
-   }
-   ```
-
-4. Open a PR. Maintainers review.
-
-### Adding a skill to an EXISTING bundle
-
-If a community bundle for your CAST product already exists (e.g. `imaging-community`), your PR adds your skill to it:
-
-1. Drop your skill at `community/plugins/<product>/skills/<skill-name>/SKILL.md`.
-2. Bump the bundle's `plugin.json` `version` (patch-level: e.g. `0.1.0` → `0.1.1`) so installed users receive your skill on `/plugin marketplace update`.
-3. `marketplace.json` does **not** need to change.
-4. Open a PR. Maintainers review.
-
-### Rules
-
-- **Only modify files under `community/`** (or `.claude-plugin/marketplace.json` to register a new bundle). The CI workflow rejects any PR that touches files outside `community/` unless authored by a maintainer.
-- **Do not commit `settings.local.json`.** It is gitignored. Declare required tool permissions in the SKILL.md frontmatter via `allowed-tools` instead.
-- **Skill, plugin, and directory names** are lowercase, hyphen-separated.
-- **Skills must be grounded in CAST data** — do not rely on raw source code scanning alone.
-
-### Opening a PR
-
-1. Fork the repository and create a branch.
-2. Make your changes per the "Adding a NEW community plugin" or "Adding a skill to an EXISTING bundle" path above.
-3. Open a PR against `main` with a brief description of each skill/plugin and the CAST product it relies on.
-
-All PRs require approval from a maintainer.
-
----
-
-## Official plugin contributions (product team)
-
-1. Choose the appropriate product directory under `products/`.
-2. Create a new subdirectory under `products/<product>/skills/<skill-name>/`.
-3. Add a `SKILL.md` file. Skills are auto-discovered; no manifest declaration needed.
-4. Register the plugin (if new) in [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) with `"category": "official"`.
-
-### Conventions
-
-- Skill names are lowercase, hyphen-separated.
-- Workflows must be grounded in CAST data — do not rely on raw source code scanning.
-- Keep each skill focused on a single workflow; compose multiple skills for complex pipelines.
-
-### Pull requests
-
-- Open a PR against `main`.
-- Include a brief description of the skill and the CAST product it relies on.
-- For new plugins, add an entry to the plugin table in `README.md` and `STRUCTURE.md`.
+Approved assets are moved from `to_be_validated/` to `assets/` by a maintainer.

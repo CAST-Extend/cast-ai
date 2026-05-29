@@ -1,8 +1,0 @@
-{
-  "name": "highlight",
-  "version": "0.0.0",
-  "status": "planned",
-  "description": "Portfolio-level skills powered by CAST Highlight",
-  "homepage": "https://github.com/CAST-Extend/cast-claude/tree/main/plugins/highlight",
-  "skills": []
-}

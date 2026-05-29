@@ -1,47 +1,45 @@
-# cast-claude
+# cast-ai
 
-Skills and plugins for using Claude with [CAST](https://www.castsoftware.com/) products.
+Reusable AI assets for CAST product users — compatible with GitHub Copilot, Cursor, Claude Code, Gemini Code Assist, and other AI coding assistants.
 
-Each skill encodes a specific AI-assisted engineering workflow — impact analysis, dependency mapping, architectural review, persistence audits — grounded in CAST's Software Intelligence rather than raw code search. Analyses are deterministic, traceable, and tied to CAST's data model.
+Each asset encodes a specific AI-assisted engineering workflow grounded in CAST Software Intelligence (Imaging, Highlight, Gatekeeper). Assets are provider-agnostic: the same workflow can be wired into different AI IDEs using the provider adapter bundled with each asset.
 
-## Install
+## Repository structure
 
-Inside Claude Code, add the `cast-claude` marketplace once:
-
-```text
-/plugin marketplace add CAST-Extend/cast-claude
+```
+assets/       validated, reviewed assets ready to use
+to_be_validated/     submitted assets pending review
 ```
 
-Then install whichever plugins you want:
+### Asset layout
 
-```text
-/plugin install imaging@cast-claude
-/plugin install imaging-community@cast-claude
-/reload-plugins
+```
+<asset-name>/
+  README.md           standardized description (see template in CONTRIBUTING.md)
+  skills/             provider-agnostic prompt definitions
+  copilot/            GitHub Copilot adapter (.github/, .vscode/)
+  claude/             Claude Code adapter (.claude/)
+  cursor/             Cursor adapter (.cursor/)
+  gemini/             Gemini Code Assist adapter
 ```
 
-Plugins install to your **user scope** by default — they stay available across all Claude Code sessions and projects.
+Not every asset supports every provider. Check the asset's README for the list of available adapters.
 
-## Plugins
+## Using an asset
 
-| Plugin | Category | Description |
-|--------|----------|-------------|
-| [`imaging`](products/imaging/) | official | Impact analysis: callers, callees, transactions, data flows, and cross-app reach for any code object. |
-| [`imaging-community`](community/plugins/imaging/) | community | 25 consultant-curated skills for CAST Imaging: architectural reviews, persistence and database analysis, security audits, modernization assessment, and orchestrated reports. |
+1. Browse `assets/` and pick the asset that fits your use case.
+2. Check its README for prerequisites (CAST products, MCP config, LLM access).
+3. Copy the provider adapter folder contents into the root of your project repository.
 
-Plugins install side by side with no name collision; install whichever you need.
+## Assets
 
-## Roadmap
+See [`assets/`](assets/) for the full catalog of validated assets.
 
-Plugins for the other CAST products will land here as they're built:
-
-- `imaging-express` — lightweight skills powered by CAST Imaging Express
-- `highlight` — portfolio-level skills powered by CAST Highlight
-- `gatekeeper` — gate and policy enforcement skills powered by CAST Gatekeeper
+See [`to_be_validated/`](to_be_validated/) for assets currently under review.
 
 ## Contributing
 
-Community contributions are welcome under [`community/plugins/<product>/`](community/plugins/). See [CONTRIBUTING.md](CONTRIBUTING.md) for the layout, naming convention, and PR workflow.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
