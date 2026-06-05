@@ -69,7 +69,24 @@ Place the result under `to_be_validated/<asset-name>/` and open a PR.
 3. Add your asset files (skills, provider adapters).
 4. Open a PR against `main`. CI will check that your changes stay within `to_be_validated/`.
 
-A reviewer will test the asset and either request changes or move it to `assets/`.
+A reviewer will test the asset and either request changes or move it to `assets/`. To revise an asset that has already been validated, see
+[Updating a validated asset](#updating-a-validated-asset).
+
+
+---
+
+## Updating a validated asset
+
+Already-validated assets live in `assets/` and cannot be edited directly — CI rejects any PR that touches `assets/`. To submit a new version, route it back through validation:
+
+1. Copy the validated asset from `assets/<asset-name>/` into `to_be_validated/<asset-name>/`. **Keep the same folder name** — this is
+   how reviewers know it's an update, not a new asset.
+2. Make your changes. Update the `README.md`, including `Asset Status` if the maturity level changed (e.g. Pilot-ready → Production-tested).
+3. Open a PR against `main`. In the description, note that this is an update to an existing asset and summarize what changed.
+
+A reviewer diffs your version against the current `assets/<asset-name>/`, re-validates it end-to-end, and a maintainer overwrites the `assets/` copy. Versioning is tracked through git history — do not encode version numbers in the folder name.
+
+---
 
 ## Asset README template
 
@@ -148,6 +165,9 @@ Provider adapters are optional — submit what you have. Other contributors can 
 Reviewers validate that the asset:
 - Works end-to-end with the declared prerequisites
 - Follows the README template
-- Does not duplicate an existing validated asset
+- Does not duplicate an existing validated asset, *unless it is submitted under
+  the same folder name as an existing asset, in which case it is treated as an
+  update and replaces that asset*
+
 
 Approved assets are moved from `to_be_validated/` to `assets/` by a maintainer.
