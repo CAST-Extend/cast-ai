@@ -40,6 +40,10 @@ Do the following steps:
    ## Benefits
    ## Asset Status
    <!-- One of: Demonstration only | Pilot-ready | Production-tested -->
+   ## Asset Status
+   <!-- One of: Demonstration only | Pilot-ready | Production-tested -->
+   ## Version
+   <!-- Semantic version, e.g. 1.0.0 for an initial release -->
    ## Solution Description
    ## Outputs Produced
    ## Workflow
@@ -81,8 +85,8 @@ Already-validated assets live in `assets/` and cannot be edited directly — CI 
 
 1. Copy the validated asset from `assets/<asset-name>/` into `to_be_validated/<asset-name>/`. **Keep the same folder name** — this is
    how reviewers know it's an update, not a new asset.
-2. Make your changes. Update the `README.md`, including `Asset Status` if the maturity level changed (e.g. Pilot-ready → Production-tested).
-3. Open a PR against `main`. In the description, note that this is an update to an existing asset and summarize what changed.
+3. Make your changes. Bump the `Version` in `README.md`,  and update `Asset Status` if the maturity level changed (e.g. Pilot-ready → Production-tested)
+4. Open a PR against `main`. In the description, note that this is an update to an existing asset and summarize what changed. 
 
 A reviewer diffs your version against the current `assets/<asset-name>/`, re-validates it end-to-end, and a maintainer overwrites the `assets/` copy. Versioning is tracked through git history — do not encode version numbers in the folder name.
 
@@ -109,6 +113,14 @@ A reviewer diffs your version against the current `assets/<asset-name>/`, re-val
 
 ## Asset Status
 <!-- One of: Demonstration only | Pilot-ready | Production-tested -->
+
+## Version
+<!-- Semantic version, e.g. 1.2.0. Bump on each validated update:
+     patch = fixes/docs, minor = new capability, major = breaking change.
+     Optionally list recent changes:
+     - 1.2.0 — added Cursor adapter
+     - 1.1.0 — improved fix validation step
+     - 1.0.0 — initial validated release -->
 
 ## Solution Description
 <!-- How the asset works technically: which CAST products are queried,
