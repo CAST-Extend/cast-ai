@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "highlight": {
+      "type": "http",
+      "url": "https://<your-highlight-mcp-host>/mcp",
+      "headers": {
+        "highlight_domain": "<your-domain-id>",
+        "highlight_api_key": "<your-highlight-api-key>"
+      }
+    },
+    "imaging": {
+      "type": "http",
+      "url": "https://<your-imaging-host>:<port>/mcp",
+      "headers": {
+        "x-api-key": "<your-imaging-api-key>"
+      }
+    }
+  }
+}
