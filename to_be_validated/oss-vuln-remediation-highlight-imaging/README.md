@@ -109,7 +109,7 @@ skills/
 ├── oss-vuln-remediation.md         Core four-step workflow (provider-agnostic)
 ├── highlight-app-resolver.md       Highlight name + integer ID resolution
 ├── highlight-data-fetch.md         Data freshness + CVE-first fetch sequence
-├── highlight-dependency-risk.md    Lightweight blast radius → risk score
+├── imaging-dependency-risk.md    Lightweight blast radius → risk score
 ├── imaging-app-resolver.md         Imaging name resolution via stats
 ├── imaging-dependency-analysis.md  Full blast radius + decision gate
 └── build-validate-rollback.md      Build · rollback · fix-attempt loop

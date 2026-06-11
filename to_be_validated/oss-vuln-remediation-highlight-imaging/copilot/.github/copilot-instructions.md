@@ -25,7 +25,7 @@ correct tool names, parameter types, and sequences.
 |-------|---------|
 | `highlight-app-resolver` | Resolve exact Highlight app name and integer ID via `find_applications` |
 | `highlight-data-fetch` | Force latest scan + CVE-first fetch sequence for any Highlight read |
-| `highlight-dependency-risk` | Lightweight Imaging blast radius for one component — produces Low/Medium/High risk score |
+| `imaging-dependency-risk` | Lightweight Imaging blast radius for one component — produces Low/Medium/High risk score |
 | `imaging-app-resolver` | Resolve exact Imaging app name via `stats` (not `applications`) |
 | `imaging-dependency-analysis` | Full Imaging blast radius for one component — 6-step deep-dive, decision gate |
 

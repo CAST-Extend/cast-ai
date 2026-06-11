@@ -1,4 +1,4 @@
-# Skill: highlight-dependency-risk
+# Skill: imaging-dependency-risk
 # Purpose: Lightweight Imaging blast radius scan for one OSS component.
 #          Produces a Dependency Risk score (Low / Medium / High) used to
 #          reorder the Consolidated Action Plan execution sequence.

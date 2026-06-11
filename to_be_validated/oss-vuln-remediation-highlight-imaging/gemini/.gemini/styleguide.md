@@ -57,7 +57,7 @@ Fill in your values directly in `.gemini/settings.json`:
 |------|---------|
 | `skills/highlight-app-resolver.md` | Highlight name + integer ID resolution |
 | `skills/highlight-data-fetch.md` | Data freshness + CVE-first fetch |
-| `skills/highlight-dependency-risk.md` | Quick blast radius score |
+| `skills/imaging-dependency-risk.md` | Quick blast radius score |
 | `skills/imaging-app-resolver.md` | Imaging name resolution |
 | `skills/imaging-dependency-analysis.md` | Full blast radius report |
 | `skills/build-validate-rollback.md` | Build · rollback · fix-attempt loop |

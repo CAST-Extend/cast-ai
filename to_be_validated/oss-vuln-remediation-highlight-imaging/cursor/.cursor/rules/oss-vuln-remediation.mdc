@@ -52,7 +52,7 @@ Replace each `<placeholder>` with your actual values.
 |------|---------|
 | `skills/highlight-app-resolver.md` | Highlight name + ID resolution |
 | `skills/highlight-data-fetch.md` | CVE-first data fetch sequence |
-| `skills/highlight-dependency-risk.md` | Lightweight blast radius per component |
+| `skills/imaging-dependency-risk.md` | Lightweight blast radius per component |
 | `skills/imaging-app-resolver.md` | Imaging name resolution |
 | `skills/imaging-dependency-analysis.md` | Full blast radius + decision gate |
 | `skills/build-validate-rollback.md` | Build · rollback · fix attempt loop |

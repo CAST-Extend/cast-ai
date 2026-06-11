@@ -27,7 +27,7 @@ Run all steps in the **same Kiro session** in order. Context is retained automat
 | `skills/highlight-app-resolver.md` | Step 1 Part A |
 | `skills/imaging-app-resolver.md` | Step 1 Part B |
 | `skills/highlight-data-fetch.md` | Step 2 |
-| `skills/highlight-dependency-risk.md` | Step 3 per component |
+| `skills/imaging-dependency-risk.md` | Step 3 per component |
 | `skills/imaging-dependency-analysis.md` | Step 4 per component |
 | `skills/build-validate-rollback.md` | Step 4 after every fix |
 

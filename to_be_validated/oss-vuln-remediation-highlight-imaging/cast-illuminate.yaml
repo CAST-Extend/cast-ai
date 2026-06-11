@@ -1,0 +1,67 @@
+ted the file # cast-illuminate.yaml.example
+# Copy to cast-illuminate.yaml and fill in your values.
+# Values wrapped in ${VAR} are read from environment variables.
+
+cast:
+  mcp_url: "http://your-cast-server:8090/mcp/"
+  api_key: "${CAST_API_KEY}"
+  application: "YourApplicationName"
+  tenant: null
+  timeout_seconds: 60
+  page_size: 20
+  # Strip this prefix from CAST MCP file paths before resolving against the repo root.
+  # CAST stores sources under a deployment path that differs from the VCS layout.
+  # Example: CAST path  → opt/cast/shared/common-data/upload/MyApp/main_sources/src/foo.cs
+  #          Repo path  → src/foo.cs
+  # Leave null (or omit) if CAST paths already match your repo layout.
+  file_path_strip_prefix: null  # e.g. "opt/cast/shared/common-data/upload/MyApp/main_sources"
+
+llm:
+  # ---------------------------------------------------------------
+  # mode: vscode (DEFAULT)
+  #   Uses GitHub Copilot via the VS Code extension bridge.
+  #   Zero re-authentication — you're already signed into Copilot.
+  #   Requires the CAST Illuminate VS Code extension to be active.
+  #
+  # mode: copilot
+  #   Calls GitHub Copilot API directly from Python (CLI/CI-CD).
+  #   Token resolved via: gh CLI → GITHUB_TOKEN env → device flow.
+  #   Use when running cast-illuminate outside VS Code.
+  #
+  # mode: direct
+  #   Uses a provider API key. Set provider + api_key below.
+  #   Use for enterprise deployments with dedicated LLM contracts.
+  # ---------------------------------------------------------------
+  mode: "vscode"
+
+  # Model to use via Copilot (vscode and copilot modes)
+  # Options: claude-sonnet-4-5 | gpt-4o | gpt-4o-mini | o3-mini
+  copilot_model: "claude-sonnet-4-5"
+
+  # Bridge port (vscode mode only — must match castIlluminate.bridgePort in VS Code settings)
+  bridge_port: 47821
+
+  # Direct mode settings (only needed when mode: direct)
+  provider: "anthropic"            # anthropic | openai | azure
+  model: "claude-sonnet-4-5"
+  api_key: "${ANTHROPIC_API_KEY}"
+  azure_endpoint: null
+  azure_deployment: null
+
+  # Shared settings
+  max_tokens: 4096
+  temperature: 0.1
+
+validation:
+  build_command: "mvn clean compile -q"
+  build_timeout_seconds: 300
+  working_directory: null
+  rollback_on_failure: true
+
+governance:
+  audit_log_path: "./cast-illuminate-audit.json"
+  require_approval: true
+  max_findings_per_run: 10
+  severity_filter:
+    - critical
+    - high
