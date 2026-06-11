@@ -96,6 +96,9 @@ by Steps 2–4 — the app name is entered only once.
 - AI IDE/coding assistant (GitHub Copilot, Cursor, Claude Code, Gemini Code Assist, Amazon Kiro, etc.)
 - Access to an LLM/provider model (GPT, Claude, Gemini, etc.)
 
+For detailed setup instructions, prompt usage, and troubleshooting for GitHub Copilot,
+see [`Copilot_USAGE.md`](Copilot_USAGE.md).
+
 ## Limitations
 
 - Human required to issue prompts and code commit/review
