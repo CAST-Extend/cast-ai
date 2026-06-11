@@ -1,0 +1,11 @@
+# CAST workflow outputs
+oss_remediation_plan.md
+
+# Environment files — never commit secrets
+.env
+.env.local
+.env.*
+
+# VS Code local user settings
+.vscode/settings.json
+.vscode/launch.json

@@ -23,7 +23,7 @@ Risk reduction
 
 ## Asset Status
 
-Production-tested for coplit, pilot-ready for rest
+Production-tested for Copilot, pilot-ready for the rest
 
 ## Version
 
@@ -96,6 +96,9 @@ by Steps 2–4 — the app name is entered only once.
 - AI IDE/coding assistant (GitHub Copilot, Cursor, Claude Code, Gemini Code Assist, Amazon Kiro, etc.)
 - Access to an LLM/provider model (GPT, Claude, Gemini, etc.)
 
+For detailed setup instructions, prompt usage, and troubleshooting for GitHub Copilot,
+see [`Copilot_USAGE.md`](Copilot_USAGE.md).
+
 ## Limitations
 
 - Human required to issue prompts and code commit/review
@@ -115,14 +118,14 @@ skills/
 └── build-validate-rollback.md      Build · rollback · fix-attempt loop
 
 copilot/
-├── .github/prompts/
-│   ├── app-resolver.prompt.md      Step 1 prompt
-│   ├── oss-assessment.prompt.md    Step 2 prompt
-│   ├── oss-dependency-prescan.prompt.md  Step 3 prompt
-│   └── oss-remediation.prompt.md   Step 4 prompt
-└── .vscode/
-    └── mcp.json                    MCP server config (placeholders only)
-
+├── .github/
+│   ├── agent.md                    Highlight field dictionary + tool catalog
+│   ├── copilot-instructions.md     Workspace-level agent instructions
+│   └── prompts/
+│       ├── app-resolver.prompt.md      Step 1 prompt
+│       ├── oss-assessment.prompt.md    Step 2 prompt
+│       ├── oss-dependency-prescan.prompt.md  Step 3 prompt
+│       └── oss-remediation.prompt.md   Step 4 prompt
 claude/
 └── .claude/
     ├── commands/
@@ -147,7 +150,6 @@ kiro/
     ├── settings/mcp.json           MCP server config
     └── steering/oss-vuln-remediation.md  Steering instructions
 
-docs/
-└── CAST-Tooling-README.md          Original Copilot-specific documentation
+Copilot_USAGE.md                    Copilot-specific setup, prompt instructions, and troubleshooting
 
 README.md                           This file
