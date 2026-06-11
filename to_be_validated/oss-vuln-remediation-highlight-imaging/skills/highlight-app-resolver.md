@@ -47,7 +47,7 @@ Show the user before proceeding:
 ```
 ✅ Highlight app resolved
 ─────────────────────────────────────────
-Supplied name  : {{APP_NAME}}
+Supplied name  : <APP_NAME>
 Resolved name  : <exact name>
 App ID (int)   : <integer id>
 Resolved via   : Strategy <1/2/3/4>

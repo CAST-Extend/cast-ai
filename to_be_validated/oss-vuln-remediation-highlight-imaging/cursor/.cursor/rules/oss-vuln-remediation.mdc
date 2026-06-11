@@ -1,0 +1,67 @@
+---
+description: CAST OSS vulnerability remediation workflow using Highlight + Imaging MCP
+globs: ["oss_remediation_plan.md", "pom.xml", "package.json", "build.gradle", "requirements.txt", "*.csproj", "go.mod", "Cargo.toml", "Gemfile"]
+alwaysApply: false
+---
+
+# CAST OSS Vulnerability Remediation
+
+This rule activates the four-step OSS remediation workflow powered by CAST Highlight
+and CAST Imaging. The full workflow logic is in `skills/oss-vuln-remediation.md`.
+
+## Quick start
+
+Run these four commands in order in the same Cursor Composer session:
+
+1. `@app-resolver <AppName>` — resolve app identity (run once per session)
+2. `@oss-assessment` — scan for vulnerabilities → writes `oss_remediation_plan.md`
+3. `@oss-dependency-prescan` — enrich plan with Imaging blast radius + exec order
+4. `@oss-remediation` — fix each component with build validation
+
+## MCP server setup
+
+Add to `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global):
+
+```json
+{
+  "mcpServers": {
+    "highlight": {
+      "type": "http",
+      "url": "https://<your-highlight-mcp-host>/mcp",
+      "headers": {
+        "highlight_domain": "<your-domain-id>",
+        "highlight_api_key": "<your-highlight-api-key>"
+      }
+    },
+    "imaging": {
+      "type": "http",
+      "url": "https://<your-imaging-host>:<port>/mcp",
+      "headers": {
+        "x-api-key": "<your-imaging-api-key>"
+      }
+    }
+  }
+}
+```
+
+Replace each `<placeholder>` with your actual values.
+
+## Sub-skills referenced
+
+| File | Purpose |
+|------|---------|
+| `skills/highlight-app-resolver.md` | Highlight name + ID resolution |
+| `skills/highlight-data-fetch.md` | CVE-first data fetch sequence |
+| `skills/highlight-dependency-risk.md` | Lightweight blast radius per component |
+| `skills/imaging-app-resolver.md` | Imaging name resolution |
+| `skills/imaging-dependency-analysis.md` | Full blast radius + decision gate |
+| `skills/build-validate-rollback.md` | Build · rollback · fix attempt loop |
+
+## Key behavioural rules
+
+- One component at a time — never batch fixes.
+- Build after every fix — rollback on failure.
+- Maximum 3 build runs per component.
+- Never guess context values — stop and report if any resolved identity is missing.
+- Never fix LICENSE-only or OUTDATED-only items unless explicitly instructed.
+- Workspace code is ground truth when Imaging returns no results.
