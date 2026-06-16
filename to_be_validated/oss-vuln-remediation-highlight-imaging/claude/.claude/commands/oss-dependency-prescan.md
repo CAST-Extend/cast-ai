@@ -15,7 +15,7 @@ assigns a Dependency Risk score (Low/Medium/High), and rewrites the Consolidated
 table in `oss_remediation_plan.md` with the final execution order.
 
 Sub-skills used:
-- `skills/highlight-dependency-risk.md`
+- `skills/imaging-dependency-risk.md`
 
 ## MCP servers required
 

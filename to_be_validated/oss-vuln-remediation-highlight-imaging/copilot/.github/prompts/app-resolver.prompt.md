@@ -1,6 +1,6 @@
 ---
 name: app-resolver
-description: Resolve app identity in CAST Highlight + Imaging — run this first
+description: Enter applicaiton Name to resolve identity in CAST — run this first
 mode: agent
 variables:
   - name: APP_NAME
@@ -11,11 +11,32 @@ variables:
 
 APP_NAME: "{{APP_NAME}}"
 
-Follow `skills/oss-vuln-remediation.md` **Step 1** exactly.
+## Part A — CAST Highlight
 
-Sub-skills called by this step:
-- `skills/highlight-app-resolver.md` — Highlight name + integer ID resolution
-- `skills/imaging-app-resolver.md`   — Imaging name resolution
+Follow #file:.github/skills/highlight-app-resolver.md exactly.
+Store result as: HIGHLIGHT_NAME (string) and HIGHLIGHT_APP_ID (integer).
 
-Store results as HIGHLIGHT_NAME, HIGHLIGHT_APP_ID, and IMAGING_APP_NAME
-in conversation context. All subsequent steps read from context — do not ask again.
+## Part B — CAST Imaging
+
+Follow #file:.github/skills/imaging-app-resolver.md exactly.
+Use HIGHLIGHT_NAME as the candidate name input.
+Store result as: IMAGING_APP_NAME (string).
+
+## Confirm with user — then store in conversation context
+
+Print and wait for user confirmation:
+
+```
+✅ App identity resolved
+─────────────────────────────────────────
+APP_NAME         : {{APP_NAME}}
+HIGHLIGHT_NAME   : <resolved exact name>
+HIGHLIGHT_APP_ID : <integer>
+IMAGING_APP_NAME : <resolved exact name>
+─────────────────────────────────────────
+Ready for /oss-assessment
+```
+
+Once confirmed, all four values are set for the rest of this conversation.
+Do not ask for them again. If a subsequent step needs them and they are
+missing from context, say so and stop — do not guess.

@@ -199,7 +199,7 @@ Run dependency risk scan for ALL components with a CVE flag:
 
 ### For each CVE-flagged component
 
-Follow `skills/highlight-dependency-risk.md` exactly.
+Follow `skills/imaging-dependency-risk.md` exactly.
 Inputs: `IMAGING_APP_NAME`, component name, detected version from plan.
 Run components in P1 order first, then P2, then P3 CVE.
 Collect the output row for each before moving to the next.
