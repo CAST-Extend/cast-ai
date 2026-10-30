@@ -79,6 +79,39 @@ A reviewer will test the asset and either request changes or move it to `assets/
 
 ---
 
+## Contributing from outside CAST
+
+You don't need a CAST account or a `castsoftware.com` email — any GitHub account can contribute. External contributors don't have write access to this repository, so work happens in a fork:
+
+1. **Fork** the repository: click **Fork** on [github.com/CAST-Extend/cast-ai](https://github.com/CAST-Extend/cast-ai).
+2. **Clone your fork** and create a branch:
+   ```bash
+   git clone https://github.com/<your-user>/cast-ai.git
+   cd cast-ai
+   git remote add upstream https://github.com/CAST-Extend/cast-ai.git
+   git checkout -b <your-asset-name>
+   ```
+3. **Add your asset** under `to_be_validated/<your-asset-name>/` following [Submitting an asset](#submitting-an-asset).
+4. **Commit and push** to your fork:
+   ```bash
+   git push -u origin <your-asset-name>
+   ```
+5. **Open a pull request** from your fork's branch to `CAST-Extend/cast-ai:main`.
+
+Before opening the PR, sync with the latest `main` to avoid conflicts:
+
+```bash
+git fetch upstream
+git rebase upstream/main
+```
+
+Notes:
+- For first-time contributors, a maintainer must approve the CI run before checks start — this is a standard GitHub safeguard, not a rejection.
+- The scope check fails if your PR touches anything outside `to_be_validated/` (including root files such as `README.md`).
+- Testing an asset end-to-end requires access to the CAST products it uses (Highlight, Imaging, …) and their API keys. If you don't have them, say so in the PR description and a reviewer will validate it.
+
+---
+
 ## Updating a validated asset
 
 Already-validated assets live in `assets/` and cannot be edited directly — CI rejects any PR that touches `assets/`. To submit a new version, route it back through validation:
