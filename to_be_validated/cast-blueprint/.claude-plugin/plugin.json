@@ -1,0 +1,7 @@
+{
+  "name": "cast-blueprint",
+  "version": "0.2.0",
+  "description": "CAST Blueprint: turn CAST Imaging analysis + AI into customer-consumable outputs organized by four focus areas (migration & modernization, tech debt & risk reduction, application management, process & application reimagination): spec, business rules, user stories, diagrams, technical debt, to-be design, target state, running costs, modernization/remediation plan, ROI and an 'Ask this Blueprint' chat, all with an evidence trail. One orchestrator skill plus one skill per section.",
+  "author": { "name": "Jibson Mamerto" },
+  "keywords": ["cast", "imaging", "modernization", "blueprint", "presales"]
+}
